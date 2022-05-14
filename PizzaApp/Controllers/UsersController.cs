@@ -15,7 +15,7 @@ public class UsersController : BaseApiController
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+    public async Task<IEnumerable<User>> GetUsers()
     {
         return await _context.Users.ToListAsync();
     }
