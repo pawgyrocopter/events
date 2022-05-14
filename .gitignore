@@ -1,0 +1,11 @@
+.idea
+
+pizza-client/node_modules
+pizza-client/.vscode
+
+PizzaApp/bin
+PizzaApp/obj
+PizzaApp/appsettings.json
+*.log
+*.sql
+*.sqlite
