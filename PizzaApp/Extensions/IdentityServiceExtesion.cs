@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using PizzaApp.Data;
 using PizzaApp.Entities;
 
@@ -23,7 +26,31 @@ public static class IdentityServiceExtension
             .AddRoleValidator<RoleValidator<Role>>()
             .AddEntityFrameworkStores<DataContext>();
 
-        services.AddAuthentication();
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"])),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+                // options.Events = new JwtBearerEvents()
+                // {
+                //     OnMessageReceived = context =>
+                //     {
+                //         var accessToken = context.Request.Query["access_token"];
+                //
+                //         var path = context.HttpContext.Request.Path;
+                //
+                //         if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+                //             context.Token = accessToken;
+                //
+                //         return Task.CompletedTask;
+                //     }
+                // };
+            });
         services.AddAuthorization();
         return services;
     }

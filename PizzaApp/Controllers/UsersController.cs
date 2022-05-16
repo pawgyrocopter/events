@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PizzaApp.Data;
 using PizzaApp.Entities;
@@ -15,6 +16,7 @@ public class UsersController : BaseApiController
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IEnumerable<User>> GetUsers()
     {
         return await _context.Users.ToListAsync();
