@@ -2,7 +2,9 @@
 
 pizza-client/node_modules
 pizza-client/.vscode
-pizza-client/.angular/cache
+pizza-client/.angular
+pizza-client/dist
+
 PizzaApp/bin
 PizzaApp/obj
 PizzaApp/appsettings.json
