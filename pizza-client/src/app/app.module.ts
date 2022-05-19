@@ -9,13 +9,19 @@ import { RegisterComponent } from './register/register.component';
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { TextInputComponent } from './_forms/text-input/text-input.component';
+import { PizzaListComponent } from './pizzas/pizza-list/pizza-list.component';
+import { PizzaItemComponent } from './pizzas/pizza-item/pizza-item.component';
+import { PizzaDetailComponent } from './pizzas/pizza-detail/pizza-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     RegisterComponent,
-    TextInputComponent
+    TextInputComponent,
+    PizzaListComponent,
+    PizzaItemComponent,
+    PizzaDetailComponent
   ],
   imports: [
     BrowserModule,

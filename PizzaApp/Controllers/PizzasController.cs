@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PizzaApp.Data;
 using PizzaApp.DTOs;
 using PizzaApp.Entities;
@@ -20,7 +21,16 @@ public class PizzasController : BaseApiController
     [HttpGet]
     public async Task<IEnumerable<Pizza>> GetPizzas()
     {
-        return null;
+        return await _context.Pizzas
+            .Include(p => p.Photo)
+            .Include(t => t.Topings)
+            .ToListAsync();
+    }
+
+    [HttpGet("{name}", Name = "GetPizza")]
+    public async Task<ActionResult<Pizza>> GetPizza(string name)
+    {
+        return await _context.Pizzas.Include(p => p.Photo).FirstOrDefaultAsync(x => x.Name == name);
     }
 
     [HttpPost("add-pizza")]
@@ -41,7 +51,9 @@ public class PizzasController : BaseApiController
             Photo = photo,
             Cost = pizzaDto.Cost,
             Ingredients = pizzaDto.Ingredients,
-            Weight = pizzaDto.Weight
+            Weight = pizzaDto.Weight,
+            State = State.Pending,
+            Topings = new List<Toping>()
         };
         _context.Pizzas.Add(pizza);
         _context.Photos.Add(photo);

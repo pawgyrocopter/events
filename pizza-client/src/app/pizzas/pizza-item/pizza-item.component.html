@@ -1,0 +1,13 @@
+
+<div class="card mb-4">
+  <div class="card-img-wrapper">
+    <img src="{{pizza.photo.url}}"alt="{{pizza.name}}" class="card-img-top">
+  </div>
+  <div class="card-body">
+    <p class="card-text"> {{pizza.name}}</p>
+    <p class="card-text"><strong>Weight:</strong> {{pizza.weight}}</p>
+    <p class="card-text"><strong>Cost:</strong> {{pizza.cost}}</p>
+    <button class="btn btn-primary mb-2" routerLink="/pizzas/{{pizza.name}}">Details</button>
+  </div>
+
+</div>

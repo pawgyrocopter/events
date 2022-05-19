@@ -3,8 +3,11 @@
     <a class="navbar-brand" routerLink="/">Pizza App</a>
     <ul class="navbar-nav">
       <ng-container >
+        <li class="nav-item" *ngIf="(accountService.currentUser$ | async) === null">
+          <a class="nav-link" routerLink="/pizzas" routerLinkActive="active">List of available pizzas</a>
+        </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/register" routerLinkActive="active">Register</a>
+          <a class="nav-link" *ngIf="(accountService.currentUser$ | async) === null" routerLink="/register" routerLinkActive="active">Register</a>
         </li>
       </ng-container>
 

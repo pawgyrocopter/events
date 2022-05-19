@@ -33,5 +33,6 @@ public class DataContext : IdentityDbContext<
             .WithOne(u => u.Role)
             .HasForeignKey(ur => ur.RoleId)
             .IsRequired();
+        
     }
 }

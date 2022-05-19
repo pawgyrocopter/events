@@ -1,9 +1,13 @@
-import {NgModule} from '@angular/core';
+import {Component, NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {RegisterComponent} from "./register/register.component";
+import {PizzaListComponent} from "./pizzas/pizza-list/pizza-list.component";
+import {PizzaDetailComponent} from "./pizzas/pizza-detail/pizza-detail.component";
 
 const routes: Routes = [
-  {path: "register", component: RegisterComponent}
+  {path: "register", component: RegisterComponent},
+  {path: "pizzas", component: PizzaListComponent},
+  {path :"pizzas/:name", component: PizzaDetailComponent}
 ];
 
 @NgModule({

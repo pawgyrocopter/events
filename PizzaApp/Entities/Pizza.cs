@@ -8,4 +8,16 @@ public class Pizza
     public int Cost { get; set; }
     public int Weight { get; set; }
     public Photo Photo { get; set; }
+    
+    public ICollection<Toping> Topings { get; set; }
+    public State State { get; set; }
+    
+}
+
+public enum State
+{
+    Pending,
+    InProgress,
+    Ready,
+    Canceled
 }
