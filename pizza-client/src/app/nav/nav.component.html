@@ -7,6 +7,9 @@
           <a class="nav-link" routerLink="/pizzas" routerLinkActive="active">List of available pizzas</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" routerLink="/cart" routerLinkActive="active">Cart</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" *ngIf="(accountService.currentUser$ | async) === null" routerLink="/register" routerLinkActive="active">Register</a>
         </li>
       </ng-container>

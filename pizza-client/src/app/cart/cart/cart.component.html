@@ -1,1 +1,16 @@
-<p>cart works!</p>
+
+<ul class="list-group">
+  <li ngbDropdown *ngFor="let pizza of user.cart.pizzas" class="list-group-item d-flex justify-content-between align-items-center">
+    <img class="img-thumbnail" src="{{pizza.photo.url}}" alt="{{pizza.name}}" >
+    <span>{{pizza.name}}</span>
+    <span>{{pizza.ingredients}}</span>
+    <button class="btn btn-outline-primary"
+            id="dropdownBasic1" ngbDropdownToggle>Topings</button>
+    <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+      <li *ngFor="let toping of pizza.topings" >
+        <a *ngIf="toping.counter > 0" class="dropdown-item" href="#">{{toping.name}} -- {{toping.counter}}</a>
+      </li>
+    </ul>
+    <span class="badge bg-secondary"> Cost : {{pizza.cost}}</span>
+  </li>
+</ul>
