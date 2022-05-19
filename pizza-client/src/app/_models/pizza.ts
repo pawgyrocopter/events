@@ -1,4 +1,5 @@
 ﻿import {Photo} from "./photo";
+import {Toping} from "./toping";
 
 export interface Pizza {
   id: number
@@ -8,4 +9,5 @@ export interface Pizza {
   weight : number
   ingredients : string
   state : number
+  topings : Toping[]
 }

@@ -23,7 +23,6 @@ public class PizzasController : BaseApiController
     {
         return await _context.Pizzas
             .Include(p => p.Photo)
-            .Include(t => t.Topings)
             .ToListAsync();
     }
 
@@ -53,7 +52,6 @@ public class PizzasController : BaseApiController
             Ingredients = pizzaDto.Ingredients,
             Weight = pizzaDto.Weight,
             State = State.Pending,
-            Topings = new List<Toping>()
         };
         _context.Pizzas.Add(pizza);
         _context.Photos.Add(photo);

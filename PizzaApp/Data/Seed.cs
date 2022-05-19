@@ -32,7 +32,7 @@ public class Seed
             Id = 11,
             UserName = "admin"
         };
-
+        
         await userManager.CreateAsync(admin, "123123");
         await userManager.AddToRolesAsync(admin, new[] {"Admin", "PizzaMaker", "Customer"});
     }

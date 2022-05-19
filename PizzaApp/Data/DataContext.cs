@@ -17,7 +17,8 @@ public class DataContext : IdentityDbContext<
 
     public DbSet<Photo> Photos { get; set; }
     public DbSet<Pizza> Pizzas { get; set; }
-
+    
+    public DbSet<Toping> Topings { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

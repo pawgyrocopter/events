@@ -3,6 +3,10 @@ import {ActivatedRoute, ActivatedRouteSnapshot, Router} from "@angular/router";
 import {take} from "rxjs";
 import {PizzaService} from "../../_services/pizza.service";
 import {Pizza} from "../../_models/pizza";
+import {TopingService} from "../../_services/toping.service";
+import {Toping} from "../../_models/toping";
+import {AccountService} from "../../_services/account.service";
+import {User} from "../../_models/user";
 
 @Component({
   selector: 'app-pizza-detail',
@@ -12,7 +16,16 @@ import {Pizza} from "../../_models/pizza";
 export class PizzaDetailComponent implements OnInit {
   name: string | null = "";
   pizza : Pizza | undefined;
-  constructor(private router: Router, private route: ActivatedRoute, private pizzasService: PizzaService) {
+  topings : Toping[] = [];
+  user : User;
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private pizzasService: PizzaService,
+              private topingService : TopingService,
+              private accountService: AccountService) {
+    this.accountService.currentUser$.subscribe(user => {
+      this.user = user;
+    })
   }
 
   ngOnInit(): void {
@@ -22,6 +35,27 @@ export class PizzaDetailComponent implements OnInit {
     this.pizzasService.getPizzaByName(this.name).subscribe( response =>{
       this.pizza = response;
     })
+    this.topingService.getTopings().subscribe(response => {
+      this.topings = response;
+      this.topings.forEach(toping => {
+        toping.counter = 0;
+      })
+      console.log(this.topings);
+    })
+  }
+
+  increaseCounter(id : number){
+    this.topings[id-1].counter = this.topings[id-1].counter + 1 ;
+    console.log(this.topings);
+  }
+
+  addToCart(){
+    // @ts-ignore
+    this.pizza?.topings = this.topings;
+    if (this.pizza) {
+      this.user.cart.pizzas.push(this.pizza);
+    }
+    console.log(this.user);
   }
 
 }

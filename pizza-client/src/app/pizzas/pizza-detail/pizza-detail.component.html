@@ -27,7 +27,16 @@
     </div>
   </div>
   <div class="col-8">
-
+    <h2>Click on toping name to add to your pizza</h2>
+      <ul class="list-group" [(ngModel)]="topings" name="topings" ngDefaultControl>
+        <li class="list-group-item" *ngFor="let toping of topings">
+          <button type="button" class="btn btn-danger"  (click)="increaseCounter(toping.id)">
+            {{toping.name}}           <span class="badge badge-pill badge-primary" *ngIf="toping.counter">{{toping.counter}}</span>
+          </button>
+        </li>
+      </ul>
+      <br>
+      <button class="btn btn-outline-danger" (click)="addToCart()">Add to cart</button>
   </div>
 
 </div>

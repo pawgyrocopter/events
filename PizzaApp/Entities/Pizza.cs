@@ -9,7 +9,6 @@ public class Pizza
     public int Weight { get; set; }
     public Photo Photo { get; set; }
     
-    public ICollection<Toping> Topings { get; set; }
     public State State { get; set; }
     
 }

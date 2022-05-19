@@ -12,6 +12,7 @@ import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { PizzaListComponent } from './pizzas/pizza-list/pizza-list.component';
 import { PizzaItemComponent } from './pizzas/pizza-item/pizza-item.component';
 import { PizzaDetailComponent } from './pizzas/pizza-detail/pizza-detail.component';
+import { CartComponent } from './cart/cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { PizzaDetailComponent } from './pizzas/pizza-detail/pizza-detail.compone
     TextInputComponent,
     PizzaListComponent,
     PizzaItemComponent,
-    PizzaDetailComponent
+    PizzaDetailComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,
