@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PizzaApp.Data;
 using PizzaApp.DTOs;
@@ -9,54 +11,33 @@ namespace PizzaApp.Controllers;
 
 public class PizzasController : BaseApiController
 {
-    private readonly DataContext _context;
-    private readonly IPhotoService _photoService;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public PizzasController(DataContext context, IPhotoService photoService)
+
+    public PizzasController(IUnitOfWork unitOfWork)
     {
-        _context = context;
-        _photoService = photoService;
+        _unitOfWork = unitOfWork;
     }
 
     [HttpGet]
-    public async Task<IEnumerable<Pizza>> GetPizzas()
+    public async Task<IEnumerable<PizzaDto>> GetPizzas()
     {
-        return await _context.Pizzas
-            .Include(p => p.Photo)
-            .ToListAsync();
+        return await _unitOfWork.PizzaRepository.GetPizzas();
     }
 
     [HttpGet("{name}", Name = "GetPizza")]
-    public async Task<ActionResult<Pizza>> GetPizza(string name)
+    public async Task<ActionResult<PizzaDto>> GetPizza(string name)
     {
-        return await _context.Pizzas.Include(p => p.Photo).FirstOrDefaultAsync(x => x.Name == name);
+        return await _unitOfWork.PizzaRepository.GetPizza(name);
     }
 
     [HttpPost("add-pizza")]
-    public async Task<ActionResult<Pizza>> AddPizza(IFormFile file, [FromQuery]PizzaDto pizzaDto)
+    public async Task<ActionResult<Pizza>> AddPizza(IFormFile file, [FromQuery] PizzaDto pizzaDto)
     {
-        var result = await _photoService.AddPhotoAsync(file);
-
-        if (result.Error != null) return BadRequest(result.Error.Message);
-
-        var photo = new Photo()
-        {
-            Url = result.SecureUrl.AbsoluteUri,
-            PublicId = result.PublicId
-        };
-        var pizza = new Pizza()
-        {
-            Name = pizzaDto.Name,
-            Photo = photo,
-            Cost = pizzaDto.Cost,
-            Ingredients = pizzaDto.Ingredients,
-            Weight = pizzaDto.Weight,
-            State = State.Pending,
-        };
-        _context.Pizzas.Add(pizza);
-        _context.Photos.Add(photo);
-
-        await _context.SaveChangesAsync();
+        var pizza = await _unitOfWork.PizzaRepository.AddPizza(file, pizzaDto);
+        await _unitOfWork.Complete();
         return pizza;
     }
+
+    
 }

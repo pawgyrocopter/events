@@ -1,7 +1,7 @@
 
 <ul class="list-group">
   <li ngbDropdown *ngFor="let pizza of user.cart.pizzas" class="list-group-item d-flex justify-content-between align-items-center">
-    <img class="img-thumbnail" src="{{pizza.photo.url}}" alt="{{pizza.name}}" >
+    <img class="img-thumbnail" src="{{pizza.photoUrl}}" alt="{{pizza.name}}" >
     <span>{{pizza.name}}</span>
     <span>{{pizza.ingredients}}</span>
     <button class="btn btn-outline-primary"
@@ -14,3 +14,5 @@
     <span class="badge bg-secondary"> Cost : {{pizza.cost}}</span>
   </li>
 </ul>
+
+<button class="btn btn-primary" (click)="orderCreate(user)" >Proceed to checkout</button>

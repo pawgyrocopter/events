@@ -3,22 +3,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PizzaApp.Data;
 using PizzaApp.Entities;
+using PizzaApp.Interfaces;
 
 namespace PizzaApp.Controllers;
 
 public class UsersController : BaseApiController
 {
-    private readonly DataContext _context;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public UsersController(DataContext context )
+    public UsersController(IUnitOfWork unitOfWork )
     {
-        _context = context;
+        _unitOfWork = unitOfWork;
     }
 
     [HttpGet]
     [Authorize]
     public async Task<IEnumerable<User>> GetUsers()
     {
-        return await _context.Users.ToListAsync();
+        return await _unitOfWork.UserRepository.GetUsers();
     }
 }

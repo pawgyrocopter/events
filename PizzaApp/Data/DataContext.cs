@@ -19,6 +19,7 @@ public class DataContext : IdentityDbContext<
     public DbSet<Pizza> Pizzas { get; set; }
     
     public DbSet<Toping> Topings { get; set; }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -34,6 +35,15 @@ public class DataContext : IdentityDbContext<
             .WithOne(u => u.Role)
             .HasForeignKey(ur => ur.RoleId)
             .IsRequired();
-        
+
+        modelBuilder.Entity<Order>()
+            .HasMany(o => o.Pizzas)
+            .WithOne(p => p.Order)
+            .HasForeignKey(p => p.OrderId)
+            .IsRequired();
+        modelBuilder.Entity<PizzaOrder>()
+            .HasMany(p => p.Topings)
+            .WithOne(t => t.PizzaOrder)
+            .HasForeignKey(t => t.PizzaOrderId);
     }
 }

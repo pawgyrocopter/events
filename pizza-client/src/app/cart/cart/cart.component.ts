@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AccountService} from "../../_services/account.service";
 import {User} from "../../_models/user";
+import {OrderService} from "../../_services/order.service";
 
 @Component({
   selector: 'app-cart',
@@ -10,7 +11,7 @@ import {User} from "../../_models/user";
 export class CartComponent implements OnInit {
   user : User;
   topings : string;
-  constructor(private accountService: AccountService) {
+  constructor(private accountService: AccountService, private orderService : OrderService) {
     this.accountService.currentUser$.subscribe(user => {
       this.user = user;
     })
@@ -19,5 +20,9 @@ export class CartComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
+  orderCreate(user : User) {
+    this.orderService.createOrder(user).subscribe(response => {
+      console.log(response);
+    })
+  }
 }

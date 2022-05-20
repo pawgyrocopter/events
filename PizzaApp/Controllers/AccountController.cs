@@ -46,6 +46,7 @@ public class AccountController : BaseApiController
 
         return new UserDto()
         {
+            Id = user.Id,
             Email = registerDto.Email,
             PhoneNumber = registerDto.PhoneNumber,
             Name = registerDto.Name,
@@ -69,6 +70,7 @@ public class AccountController : BaseApiController
 
         return new UserDto()
         {
+            Id = user.Id,
             Name = user.UserName,
             Token = await _tokenService.CreateToken(user),
         };

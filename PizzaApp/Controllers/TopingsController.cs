@@ -1,22 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PizzaApp.Data;
+using PizzaApp.DTOs;
 using PizzaApp.Entities;
+using PizzaApp.Helpers;
+using PizzaApp.Interfaces;
 
 namespace PizzaApp.Controllers;
 
 public class TopingsController : BaseApiController
 {
-    private readonly DataContext _context;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public TopingsController(DataContext context)
+    public TopingsController(IUnitOfWork unitOfWork)
     {
-        _context = context;
+        _unitOfWork = unitOfWork;
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Toping>>> GetTopings()
+    public async Task<ActionResult<IEnumerable<TopingDto>>> GetTopings()
     {
-        return await _context.Topings.ToListAsync();
+        return await _unitOfWork.TopingRepository.GetTopings();
     }
 }

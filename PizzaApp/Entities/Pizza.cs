@@ -8,7 +8,6 @@ public class Pizza
     public int Cost { get; set; }
     public int Weight { get; set; }
     public Photo Photo { get; set; }
-    
     public State State { get; set; }
     
 }
