@@ -12,10 +12,15 @@ export class OrderService {
 
   createOrder(user : User){
     let order ={
-      cart : user.cart,
+      pizzas : user.cart.pizzas,
       name : user.name,
     }
     console.log(order);
     return this.http.post(this.baseUrl + 'order/create-order', order);
+  }
+
+  getUserOrders(user : User){
+    console.log(this.http.get(this.baseUrl + 'order/get-user-orders/' + user.name));
+    return this.http.get(this.baseUrl + 'order/get-user-orders/' + user.name);
   }
 }

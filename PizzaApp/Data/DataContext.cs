@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using PizzaApp.DTOs;
 using PizzaApp.Entities;
 
 namespace PizzaApp.Data;
@@ -20,6 +21,9 @@ public class DataContext : IdentityDbContext<
     
     public DbSet<Toping> Topings { get; set; }
     
+    public DbSet<Order>Orders { get; set; }
+    public DbSet<PizzaOrder> PizzaOrders { get; set; }
+    public DbSet<TopingOrder> TopingOrders { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -40,10 +44,14 @@ public class DataContext : IdentityDbContext<
             .HasMany(o => o.Pizzas)
             .WithOne(p => p.Order)
             .HasForeignKey(p => p.OrderId)
-            .IsRequired();
+            .OnDelete(DeleteBehavior.Cascade);
+        
         modelBuilder.Entity<PizzaOrder>()
             .HasMany(p => p.Topings)
             .WithOne(t => t.PizzaOrder)
-            .HasForeignKey(t => t.PizzaOrderId);
+            .HasForeignKey( t => t.PizzaOrderId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+
     }
 }

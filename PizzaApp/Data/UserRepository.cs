@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PizzaApp.Entities;
 using PizzaApp.Interfaces;
@@ -15,9 +16,14 @@ public class UserRepository : IUserRepository
         _context = context;
         _mapper = mapper;
     }
-
+    
     public async Task<IEnumerable<User>> GetUsers()
     {
         return await _context.Users.ToListAsync();
+    }
+
+    public async Task<User> GetUserByName(string name)
+    {
+        return await _context.Users.FirstOrDefaultAsync(x => x.UserName == name);
     }
 }

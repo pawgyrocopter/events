@@ -1,0 +1,19 @@
+.list-group-item{
+  padding: 20px;
+}
+.list-group-item button{
+  margin-right: 20px;
+}
+
+.cart{
+  width: 100%;
+}
+
+.container{
+  margin: 0;
+  padding: 0;
+}
+
+.text-start{
+  color: mediumvioletred;
+}

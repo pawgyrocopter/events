@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-4">
-    <div class="card" *ngIf="pizza">
+    <div class="card" *ngIf="pizza" [(ngModel)]="pizza" name="pizza" ngDefaultControl>
       <img src="{{pizza.photoUrl}}" alt=""
            class="card-img-top img-thumbnail">
       <div class="card-body">
@@ -27,16 +27,23 @@
     </div>
   </div>
   <div class="col-8">
-    <h2>Click on toping name to add to your pizza</h2>
+    <div class="container text-center">
+      <h2>Click on toping name to add to your pizza</h2>
+      <h3 class="text-start">*every toping consts 20</h3>
+    </div>
+
       <ul class="list-group" [(ngModel)]="topings" name="topings" ngDefaultControl>
         <li class="list-group-item" *ngFor="let toping of topings">
-          <button type="button" class="btn btn-danger"  (click)="increaseCounter(toping.id)">
-            {{toping.name}}           <span class="badge badge-pill badge-primary" *ngIf="toping.counter">{{toping.counter}}</span>
+          <button type="button" class="btn btn-primary"  (click)="increaseCounter(toping.id)">
+            {{toping.name}}<span class="badge badge-pill badge-primary" *ngIf="toping.counter">{{toping.counter}}</span>
+          </button>
+          <button type="button" class="btn btn-danger" *ngIf="toping.counter > 0"  (click)="decreaseCounter(toping.id)">
+            -
           </button>
         </li>
       </ul>
       <br>
-      <button class="btn btn-outline-danger" (click)="addToCart()">Add to cart</button>
+      <button class="btn btn-outline-danger cart" (click)="addToCart()">Add to cart</button>
   </div>
 
 </div>

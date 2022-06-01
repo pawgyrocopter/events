@@ -13,7 +13,14 @@ import { PizzaListComponent } from './pizzas/pizza-list/pizza-list.component';
 import { PizzaItemComponent } from './pizzas/pizza-item/pizza-item.component';
 import { PizzaDetailComponent } from './pizzas/pizza-detail/pizza-detail.component';
 import { CartComponent } from './cart/cart/cart.component';
-import { PizzaMakerPanelComponent } from './pizza-maker/pizza-maker-panel/pizza-maker-panel.component';
+import { PizzaUserOrdersComponent } from './pizzas/pizza-user-orders/pizza-user-orders.component';
+import { OrderItemComponent } from './order/order-item/order-item.component';
+import { OrderListComponent } from './order/order-list/order-list.component';
+import {ToastrModule, ToastrService} from "ngx-toastr";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {NgxSpinnerModule} from "ngx-spinner";
+import {AccordionModule} from "ngx-bootstrap/accordion";
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -25,7 +32,9 @@ import { PizzaMakerPanelComponent } from './pizza-maker/pizza-maker-panel/pizza-
     PizzaItemComponent,
     PizzaDetailComponent,
     CartComponent,
-    PizzaMakerPanelComponent
+    PizzaUserOrdersComponent,
+    OrderItemComponent,
+    OrderListComponent
   ],
   imports: [
     BrowserModule,
@@ -35,6 +44,11 @@ import { PizzaMakerPanelComponent } from './pizza-maker/pizza-maker-panel/pizza-
     FormsModule,
     ReactiveFormsModule,
     NgbDropdownModule,
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule,
+    NgxSpinnerModule,
+    AccordionModule,
+    ModalModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

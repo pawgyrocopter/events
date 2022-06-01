@@ -29,6 +29,7 @@ public class PizzaRepository : IPizzaRepository
             .ToListAsync();
     }
 
+
     public async Task<ActionResult<PizzaDto>> GetPizza(string name)
     {
         var pizza = await _context.Pizzas
@@ -38,7 +39,7 @@ public class PizzaRepository : IPizzaRepository
         return pizza;
     }
 
-    public async Task<ActionResult<Pizza>> AddPizza(IFormFile file, PizzaDto pizzaDto)
+    public async Task<ActionResult<Pizza>> AddPizza([FromBody]IFormFile file, PizzaDto pizzaDto)
     {
         var result = await _photoService.AddPhotoAsync(file);
 

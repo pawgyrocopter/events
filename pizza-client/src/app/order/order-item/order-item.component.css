@@ -1,0 +1,14 @@
+.card-img-top{
+  width: 250px;
+  height: 250px;
+}
+
+.card{
+  justify-content: center;
+  align-items: center;
+}
+
+.card-title{
+  align-items: center;
+  text-align: center;
+}

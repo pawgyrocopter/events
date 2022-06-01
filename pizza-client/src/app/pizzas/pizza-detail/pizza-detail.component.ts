@@ -7,6 +7,7 @@ import {TopingService} from "../../_services/toping.service";
 import {Toping} from "../../_models/toping";
 import {AccountService} from "../../_services/account.service";
 import {User} from "../../_models/user";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-pizza-detail',
@@ -22,7 +23,8 @@ export class PizzaDetailComponent implements OnInit {
               private route: ActivatedRoute,
               private pizzasService: PizzaService,
               private topingService : TopingService,
-              private accountService: AccountService) {
+              private accountService: AccountService,
+              private toastr: ToastrService) {
     this.accountService.currentUser$.subscribe(user => {
       this.user = user;
     })
@@ -46,6 +48,16 @@ export class PizzaDetailComponent implements OnInit {
 
   increaseCounter(id : number){
     this.topings[id-1].counter = this.topings[id-1].counter + 1 ;
+    if(this.pizza){
+      this.pizza.cost = this.pizza.cost + 20;
+    }
+    console.log(this.topings);
+  }
+  decreaseCounter(id : number){
+    this.topings[id-1].counter = this.topings[id-1].counter - 1 ;
+    if(this.pizza){
+      this.pizza.cost = this.pizza.cost - 20;
+    }
     console.log(this.topings);
   }
 
@@ -55,6 +67,8 @@ export class PizzaDetailComponent implements OnInit {
     if (this.pizza) {
       this.user.cart.pizzas.push(this.pizza);
     }
+    this.toastr.success("Well done, you successfully added pizza to your cart");
+    this.router.navigateByUrl('/pizzas');
     console.log(this.user);
   }
 

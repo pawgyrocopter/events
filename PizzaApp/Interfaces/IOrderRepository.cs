@@ -5,5 +5,8 @@ namespace PizzaApp.Interfaces;
 
 public interface IOrderRepository
 {
-    Task<Order> CreateOrder(OrderDto orderDto);
+    Task<OrderDto> CreateOrder(OrderDto orderDto);
+    Task<IEnumerable<OrderDto>> GetOrders();
+
+    Task<IEnumerable<OrderDto>> GerUserOrders(string name);
 }
