@@ -1,8 +1,9 @@
-<div class="card" >
+<div class="card">
   <img class="card-img-top" src="assets/ok.jpg" alt="Card image cap">
   <div class="card-body">
-    <h5 class="card-title">{{order.name}}</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+    <h5 class="card-title">{{order.orderId}}</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+      content.</p>
+    <button class="btn btn-primary mb-2" routerLink="/orders/{{order.orderId}}">Details</button>
   </div>
 </div>

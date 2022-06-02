@@ -1,0 +1,26 @@
+<table class="table">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Weight</th>
+      <th>Topings</th>
+      <th>Cost</th>
+    </tr>
+    </thead>
+  <tbody>
+    <tr *ngFor="let pizza of order?.pizzas">
+      <th>{{pizza.name}}</th>
+      <th>{{pizza.weight}}</th>
+      <th ngbDropdown>
+        <button class="btn btn-outline-primary"
+                id="dropdownBasic1" ngbDropdownToggle>Topings</button>
+        <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <li *ngFor="let toping of pizza.topings" >
+            <span *ngIf="toping.counter > 0" class="dropdown-item" href="#">{{toping.name}} -- {{toping.counter}}</span>
+          </li>
+        </ul>
+      </th>
+      <th>{{pizza.cost}}</th>
+    </tr>
+  </tbody>
+</table>

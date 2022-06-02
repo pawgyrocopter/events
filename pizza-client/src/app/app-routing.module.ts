@@ -6,6 +6,8 @@ import {PizzaDetailComponent} from "./pizzas/pizza-detail/pizza-detail.component
 import {CartComponent} from "./cart/cart/cart.component";
 import {AuthGuard} from "./_guards/auth.guard";
 import {PizzaUserOrdersComponent} from "./pizzas/pizza-user-orders/pizza-user-orders.component";
+import {OrderDetailComponent} from "./order/order-detail/order-detail.component";
+import {PizzaMakerPanelComponent} from "./pizza-maker/pizza-maker-panel/pizza-maker-panel.component";
 
 const routes: Routes = [
   {
@@ -16,9 +18,11 @@ const routes: Routes = [
       {path: "pizzas", component: PizzaListComponent},
       {path: "pizzas/:name", component: PizzaDetailComponent},
       {path: "cart", component: CartComponent},
-      {path: "orders", component: PizzaUserOrdersComponent}
+      {path: "orders", component: PizzaUserOrdersComponent},
+      {path: "orders/:id", component: OrderDetailComponent},
     ]
   },
+  {path: "pizza-maker-panel", component: PizzaMakerPanelComponent},
   {path: "register", component: RegisterComponent},
 ];
 

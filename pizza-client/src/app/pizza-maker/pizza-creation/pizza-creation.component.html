@@ -1,0 +1,112 @@
+<section>
+  <form [formGroup]="creationForm" (ngSubmit)="creationForm.invalid">
+    <div class="container">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-xl-9">
+
+          <h2 class="text-center mb-4">Create pizza</h2>
+
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body">
+
+              <div class="row align-items-center pt-4 pb-3">
+                <div class="col-md-3 ps-5">
+                  <h6 class="mb-0">Pizza Name</h6>
+                </div>
+                <div class="col-md-9 pe-5">
+                  <input type="text"
+                         class="form-control form-control-lg"
+                         name="name"
+                         formControlName="name"/>
+                </div>
+              </div>
+
+              <hr class="mx-n3">
+
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+
+                  <h6 class="mb-0">Cost</h6>
+
+                </div>
+                <div class="col-md-9 pe-5">
+                  <input type="text"
+                         class="form-control form-control-lg"
+                         name="cost"
+                         formControlName="cost"/>
+                </div>
+              </div>
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+
+                  <h6 class="mb-0">Weight</h6>
+
+                </div>
+                <div class="col-md-9 pe-5">
+
+                  <input type="text"
+                         class="form-control form-control-lg"
+                         name="weight"
+                         formControlName="weight"/>
+
+                </div>
+              </div>
+
+              <hr class="mx-n3">
+
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+
+                  <h6 class="mb-0">Ingredients</h6>
+
+                </div>
+                <div class="col-md-9 pe-5">
+
+                  <textarea
+                    class="form-control"
+                    rows="3"
+                    name="ingredients"
+                    formControlName="ingredients">
+                  </textarea>
+
+
+                </div>
+              </div>
+
+              <hr class="mx-n3">
+
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+
+                  <h6 class="mb-0">Photo</h6>
+
+                </div>
+                <div class="col-md-9 pe-5">
+
+                  <input class="form-control form-control-lg"
+                         id="file"
+                         type="file"
+                         name="photo"
+                         formControlName="photo"
+                         (change)="handleFileInput($event.target.files)"/>
+                  <div class="small text-muted mt-2">Upload photo of pizza. Max file
+                    size 50 MB
+                  </div>
+
+                </div>
+              </div>
+
+              <hr class="mx-n3">
+
+              <div class="px-5 py-4">
+                <button type="submit" class="btn btn-primary btn-lg" (click)="createPizza()">Create pizza</button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </form>
+</section>

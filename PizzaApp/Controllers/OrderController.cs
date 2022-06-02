@@ -51,4 +51,10 @@ public class OrderController : BaseApiController
         return await _unitOfWork.OrderRepository.GerUserOrders(name);
     }
 
+    [HttpGet("{orderId}")]
+    public async Task<OrderDto> GetOrderById(int orderId)
+    {
+        return await _unitOfWork.OrderRepository.GetOrderById(orderId);
+    }
+
 }

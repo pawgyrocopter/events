@@ -21,6 +21,11 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {NgxSpinnerModule} from "ngx-spinner";
 import {AccordionModule} from "ngx-bootstrap/accordion";
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { OrderDetailComponent } from './order/order-detail/order-detail.component';
+import { PizzaMakerPanelComponent } from './pizza-maker/pizza-maker-panel/pizza-maker-panel.component';
+import {TabsModule} from "ngx-bootstrap/tabs";
+import { PizzaCreationComponent } from './pizza-maker/pizza-creation/pizza-creation.component';
+import {BsDropdownModule} from "ngx-bootstrap/dropdown";
 
 @NgModule({
   declarations: [
@@ -34,7 +39,10 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     CartComponent,
     PizzaUserOrdersComponent,
     OrderItemComponent,
-    OrderListComponent
+    OrderListComponent,
+    OrderDetailComponent,
+    PizzaMakerPanelComponent,
+    PizzaCreationComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +57,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     NgxSpinnerModule,
     AccordionModule,
     ModalModule.forRoot(),
+    TabsModule,
+    BsDropdownModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
