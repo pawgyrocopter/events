@@ -1,5 +1,5 @@
 <div class="row">
   <div class="col-3" *ngFor="let pizza of pizzas">
-    <app-pizza-item routerLink="/pizzas/{{pizza.name}}" [pizza]="pizza"></app-pizza-item>
+    <app-pizza-item [pizza]="pizza"></app-pizza-item>
   </div>
 </div>

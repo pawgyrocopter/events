@@ -3,6 +3,13 @@
     <app-pizza-creation></app-pizza-creation>
   </tab>
   <tab heading="Toping Creation">
-
+  <app-toping-creation></app-toping-creation>
+  </tab>
+  <tab heading="Pizza list">
+    <div class="row">
+      <div class="col-3" *ngFor="let pizza of pizzas">
+        <app-pizza-item routerLink="/pizzas/{{pizza.name}}" [pizza]="pizza"></app-pizza-item>
+      </div>
+    </div>
   </tab>
 </tabset>

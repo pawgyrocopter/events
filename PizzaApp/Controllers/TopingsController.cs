@@ -23,4 +23,12 @@ public class TopingsController : BaseApiController
     {
         return await _unitOfWork.TopingRepository.GetTopings();
     }
+
+    [HttpPost]
+    public async Task<ActionResult<TopingDto>> CreateToping([FromBody]TopingDto topingDto)
+    {
+        var toping = await _unitOfWork.TopingRepository.CreateToping(topingDto.Name);
+        await _unitOfWork.Complete();
+        return toping;
+    }
 }

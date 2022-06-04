@@ -9,4 +9,5 @@ public interface IPizzaRepository
     Task<IEnumerable<PizzaDto>> GetPizzas();
     Task<ActionResult<PizzaDto>> GetPizza(string name);
     Task<ActionResult<Pizza>> AddPizza(IFormFile file, [FromQuery] PizzaDto pizzaDto);//should be changed
+    Task<ActionResult<PizzaDto>> UpdatePizza(PizzaDto pizzaDto);
 }

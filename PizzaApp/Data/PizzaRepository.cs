@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using PizzaApp.DTOs;
 using PizzaApp.Entities;
 using PizzaApp.Interfaces;
+using SQLitePCL;
 
 namespace PizzaApp.Data;
 
@@ -63,5 +64,15 @@ public class PizzaRepository : IPizzaRepository
         _context.Photos.Add(photo);
         
         return pizza;
+    }
+
+    public async Task<ActionResult<PizzaDto>> UpdatePizza(PizzaDto pizzaDto)
+    {
+        var pizza = await _context.Pizzas.FirstOrDefaultAsync(x => x.Name == pizzaDto.Name);
+        pizza.Cost = pizzaDto.Cost;
+        pizza.Ingredients = pizzaDto.Ingredients;
+        pizza.Weight = pizzaDto.Weight;
+        _context.Pizzas.Update(pizza);
+        return _mapper.Map<PizzaDto>(pizza);
     }
 }

@@ -22,10 +22,14 @@ export class PizzaService {
   createPizza(pizzaForm : FormGroup, photoToUpload: File){
     const formFile: FormData = new FormData();
     formFile.append('File', photoToUpload, photoToUpload.name);
-    return this.http.post(this.baseUrl + 'pizzas/add-pizza?name=' + pizzaForm.controls['name'].value +
+    return this.http.post(this.baseUrl +
+      'pizzas/add-pizza?name=' + pizzaForm.controls['name'].value +
       '&ingredients=' + pizzaForm.controls['ingredients'].value +
       '&cost=' + pizzaForm.controls['cost'].value +
       '&weight=' + pizzaForm.controls['weight'].value+
       '&photoUrl', formFile);
+  }
+  updatePizza(pizza : Pizza){
+    return this.http.put(this.baseUrl + 'pizzas', pizza);
   }
 }

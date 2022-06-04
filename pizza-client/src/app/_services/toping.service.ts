@@ -13,4 +13,7 @@ export class TopingService {
   getTopings(){
     return this.http.get<Toping[]>(this.baseUrl + 'topings');
   }
+  createToping(name : string) {
+    return this.http.post(this.baseUrl + 'topings', {id : 1, name : name, counter : 1});
+  }
 }

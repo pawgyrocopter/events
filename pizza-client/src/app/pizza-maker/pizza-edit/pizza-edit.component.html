@@ -1,0 +1,104 @@
+<section>
+  <form [formGroup]="editingForm" (ngSubmit)="editingForm.invalid">
+    <div class="container">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-xl-9">
+
+          <h2 class="text-center mb-4">Edit pizza</h2>
+
+          <div class="card"  style="border-radius: 15px;">
+            <div class="card-body">
+
+              <div class="row align-items-center pt-4 pb-3">
+                <div class="col-md-3 ps-5">
+                  <h6 class="mb-0">Pizza Name</h6>
+                </div>
+                <div class="col-md-9 pe-5">
+                  <span type="text"
+                         class="form-control form-control-lg"
+                         name="name"
+
+                  >{{pizza?.name}}</span>
+                </div>
+              </div>
+
+              <hr class="mx-n3">
+
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+
+                  <h6 class="mb-0">Cost</h6>
+
+                </div>
+                <div class="col-md-9 pe-5">
+                  <textarea type="text"
+                         class="form-control form-control-lg"
+                         name="cost"
+                         formControlName="cost"
+                            [value]="pizza?.cost"></textarea>
+                </div>
+              </div>
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+
+                  <h6 class="mb-0">Weight</h6>
+
+                </div>
+                <div class="col-md-9 pe-5">
+
+                  <textarea type="text"
+                         class="form-control form-control-lg"
+                         name="weight"
+                         formControlName="weight"
+                            [value]="pizza?.weight"></textarea>
+
+                </div>
+              </div>
+
+              <hr class="mx-n3">
+
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+
+                  <h6 class="mb-0">Ingredients</h6>
+
+                </div>
+                <div class="col-md-9 pe-5">
+
+                  <textarea
+                    class="form-control"
+                    rows="3"
+                    name="ingredients"
+                    formControlName="ingredients"
+                    [value]="pizza?.ingredients">
+                  </textarea>
+
+
+                </div>
+              </div>
+
+              <hr class="mx-n3">
+
+              <div class="row align-items-center py-3">
+                <div class="col-md-3 ps-5">
+
+                  <h6 class="mb-0">Photo</h6>
+
+                </div>
+
+              </div>
+
+              <hr class="mx-n3">
+
+              <div class="px-5 py-4">
+                <button type="submit" class="btn btn-primary btn-lg" (click)="updatePizza()">Update pizza</button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </form>
+</section>

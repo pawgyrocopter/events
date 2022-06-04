@@ -8,6 +8,7 @@
     <p class="card-text"><strong>Weight:</strong> {{pizza.weight}}</p>
     <p class="card-text"><strong>Cost:</strong> {{pizza.cost}}</p>
     <button class="btn btn-primary mb-2" routerLink="/pizzas/{{pizza.name}}">Details</button>
+    <button class="btn btn-primary mb-2 ms-2" *ngIf="(accountService.currentUser$ | async)?.roles.includes('PizzaMaker')"  routerLink="/pizzas/edit/{{pizza.name}}">Edit</button>
   </div>
 
 </div>

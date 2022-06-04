@@ -26,6 +26,11 @@ import { PizzaMakerPanelComponent } from './pizza-maker/pizza-maker-panel/pizza-
 import {TabsModule} from "ngx-bootstrap/tabs";
 import { PizzaCreationComponent } from './pizza-maker/pizza-creation/pizza-creation.component';
 import {BsDropdownModule} from "ngx-bootstrap/dropdown";
+import { TopingCreationComponent } from './pizza-maker/toping-creation/toping-creation.component';
+import { PizzaEditComponent } from './pizza-maker/pizza-edit/pizza-edit.component';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { UserManagmentComponent } from './admin/user-managment/user-managment.component';
+import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +47,12 @@ import {BsDropdownModule} from "ngx-bootstrap/dropdown";
     OrderListComponent,
     OrderDetailComponent,
     PizzaMakerPanelComponent,
-    PizzaCreationComponent
+    PizzaCreationComponent,
+    TopingCreationComponent,
+    PizzaEditComponent,
+    AdminPanelComponent,
+    UserManagmentComponent,
+    RolesModalComponent
   ],
   imports: [
     BrowserModule,

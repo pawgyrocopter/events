@@ -39,5 +39,13 @@ public class PizzasController : BaseApiController
         return pizza;
     }
 
+    [HttpPut]
+    public async Task<ActionResult<PizzaDto>> UpdatePizza([FromBody]PizzaDto pizzaDto)
+    {
+        var pizza = await _unitOfWork.PizzaRepository.UpdatePizza(pizzaDto);
+        await _unitOfWork.Complete();
+        return pizza;
+    }
+
     
 }

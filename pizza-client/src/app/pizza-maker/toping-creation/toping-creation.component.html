@@ -1,0 +1,35 @@
+<section>
+  <form [formGroup]="creationForm" (ngSubmit)="creationForm.invalid">
+    <div class="container">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-xl-9">
+
+          <h2 class="text-center mb-4">Create Toping</h2>
+
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body">
+
+              <div class="row align-items-center pt-4 pb-3">
+                <div class="col-md-3 ps-5">
+                  <h6 class="mb-0">Toping Name</h6>
+                </div>
+                <div class="col-md-9 pe-5">
+                  <input type="text"
+                         class="form-control form-control-lg"
+                         name="name"
+                         formControlName="name"/>
+                </div>
+              </div>
+              <hr class="mx-n3">
+            </div>
+            <div class="px-5 py-4">
+              <button type="submit" class="btn btn-primary btn-lg" (click)="createToping()">Create Toping</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </form>
+</section>
