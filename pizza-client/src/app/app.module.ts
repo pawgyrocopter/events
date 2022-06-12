@@ -31,6 +31,9 @@ import { PizzaEditComponent } from './pizza-maker/pizza-edit/pizza-edit.componen
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { UserManagmentComponent } from './admin/user-managment/user-managment.component';
 import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
+import { OrderManagingListComponent } from './pizza-maker/order-managing-list/order-managing-list.component';
+import {StateModalComponent} from "./modals/state-modal/state-modal.component";
+import {MDCMenu} from "@material/menu";
 
 @NgModule({
   declarations: [
@@ -52,7 +55,9 @@ import { RolesModalComponent } from './modals/roles-modal/roles-modal.component'
     PizzaEditComponent,
     AdminPanelComponent,
     UserManagmentComponent,
-    RolesModalComponent
+    RolesModalComponent,
+    OrderManagingListComponent,
+    StateModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,7 +73,7 @@ import { RolesModalComponent } from './modals/roles-modal/roles-modal.component'
     AccordionModule,
     ModalModule.forRoot(),
     TabsModule,
-    BsDropdownModule.forRoot()
+    BsDropdownModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

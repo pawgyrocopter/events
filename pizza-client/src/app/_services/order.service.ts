@@ -28,4 +28,12 @@ export class OrderService {
   getOrderById(orderId: string | null){
     return this.http.get<Order>(this.baseUrl + 'order/' + orderId);
   }
+
+  getOrders(){
+    return this.http.get<Order[]>(this.baseUrl + 'order');
+  }
+
+  updateOrderState(orderId : number){
+    return this.http.put(this.baseUrl + 'order/' + orderId, {});
+  }
 }

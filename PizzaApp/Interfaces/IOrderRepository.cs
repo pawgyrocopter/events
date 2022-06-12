@@ -10,4 +10,5 @@ public interface IOrderRepository
 
     Task<IEnumerable<OrderDto>> GerUserOrders(string name);
     Task<OrderDto> GetOrderById(int orderId);
+    Task<bool> UpdateOrderState(int orderId);
 }

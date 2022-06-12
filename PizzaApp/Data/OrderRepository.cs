@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using PizzaApp.DTOs;
 using PizzaApp.Entities;
 using PizzaApp.Interfaces;
+using PizzaApp.Services;
 
 namespace PizzaApp.Data;
 
@@ -35,6 +36,7 @@ public class OrderRepository : IOrderRepository
                     Counter = x.Counter
                 }).ToList();
             pOrder.Pizza.Cost = pizza.Cost;
+            pOrder.State = State.Pending;
             pizzas.Add(pOrder);
         }
 
@@ -71,5 +73,14 @@ public class OrderRepository : IOrderRepository
             .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
             .FirstOrDefaultAsync(x => x.OrderId == orderId);
         return order;
+    }
+
+    public async Task<bool> UpdateOrderState(int orderId)
+    {
+        var order = await _context.Orders.Include(p => p.Pizzas).FirstOrDefaultAsync(x => x.Id == orderId);
+        var answer = order.Pizzas.All(x => x.State == State.Ready);
+        if (answer) order.OrderState = OrderState.Ready;
+        await _context.SaveChangesAsync();
+        return answer;
     }
 }

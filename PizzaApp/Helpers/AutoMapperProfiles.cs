@@ -19,7 +19,10 @@ public class AutoMapperProfiles: Profile
             .ForMember(d => d.Name, e=> 
                 e.MapFrom(src => src.User.UserName))
             .ForMember(d => d.OrderId,
-                e => e.MapFrom(src => src.Id));
+                e => e.MapFrom(src => src.Id))
+            .ForMember(d => d.OrderState,
+                e => e.MapFrom(src => src.OrderState));
+
         
         CreateMap<PizzaOrder, PizzaDto>()
             .ForMember(d => d.Name, e =>
@@ -33,7 +36,11 @@ public class AutoMapperProfiles: Profile
             .ForMember(d => d.PhotoUrl, e =>
                 e.MapFrom(src => src.Pizza.Photo.Url))
             .ForMember(d => d.Topings, e =>
-                e.MapFrom(src => src.Topings));
+                e.MapFrom(src => src.Topings))
+            .ForMember(d => d.Id, e => 
+                e.MapFrom(src => src.Id))
+            .ForMember(d => d.State, e => 
+                e.MapFrom(src => src.State));
 
         CreateMap<TopingOrder, TopingDto>()
             .ForMember(d => d.Name, e =>

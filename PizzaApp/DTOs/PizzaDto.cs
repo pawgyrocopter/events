@@ -1,7 +1,11 @@
-﻿namespace PizzaApp.DTOs;
+﻿using PizzaApp.Entities;
+
+namespace PizzaApp.DTOs;
 
 public class PizzaDto
 {
+    public int Id { get; set; }
+    public State State { get; set; }
     public string Name { get; set; }
     public string Ingredients { get; set; }
     public int Cost { get; set; }

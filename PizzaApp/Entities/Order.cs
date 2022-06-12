@@ -10,4 +10,12 @@ public class Order
     public List<PizzaOrder> Pizzas{get;set;}   
     public int UserId { get; set; }
     public User User { get; set; }
+    
+    public OrderState OrderState { get; set; }
+}
+
+public enum OrderState
+{
+    Making,
+    Ready
 }

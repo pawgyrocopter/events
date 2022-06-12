@@ -5,6 +5,7 @@
       <th>Weight</th>
       <th>Topings</th>
       <th>Cost</th>
+      <th >State</th>
     </tr>
     </thead>
   <tbody>
@@ -21,6 +22,16 @@
         </ul>
       </th>
       <th>{{pizza.cost}}</th>
+      <th>{{pizza.stateAsString}}</th>
+      <th *ngIf="(accountService.currentUser$ | async)?.roles.includes('PizzaMaker')">
+        <form [formGroup]="selectState">
+        <select (ngModelChange)="mySelectHandler($event, pizza)" formControlName="state" class="form-select" id="stateSelect" aria-label="Default select example">
+          <option disabled>Choose state</option>
+          <option [ngValue]="item"  id="{{item}}" *ngFor="let item of states">{{item.name}}</option>
+        </select>
+        </form>
+      </th>
     </tr>
   </tbody>
+  <button type="submit" class="btn btn-success m-3" style="width: 100%" (click)="updateState(order?.pizzas)">Save Changes</button>
 </table>

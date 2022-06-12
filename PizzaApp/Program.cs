@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using PizzaApp.Data;
 using PizzaApp.Entities;
 using PizzaApp.Extensions;
+using PizzaApp.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +33,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+// app.MapHub<OrderHub>("/order");
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 try

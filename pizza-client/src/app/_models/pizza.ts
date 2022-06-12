@@ -8,6 +8,14 @@ export interface Pizza {
   cost : number
   weight : number
   ingredients : string
-  state : number
+  state : State
+  stateAsString : string
   topings : Toping[]
+}
+
+export enum State{
+  "Pending",
+  "In Progress",
+  "Ready",
+  "Canceled"
 }

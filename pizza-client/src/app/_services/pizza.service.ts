@@ -32,4 +32,10 @@ export class PizzaService {
   updatePizza(pizza : Pizza){
     return this.http.put(this.baseUrl + 'pizzas', pizza);
   }
+
+  updatePizzaState(pizza : Pizza){
+    return this.http.put(this.baseUrl + 'pizzas/' + pizza.id +'/' + pizza.state, {});
+  }
+
+
 }

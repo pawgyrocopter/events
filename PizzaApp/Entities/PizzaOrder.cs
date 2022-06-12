@@ -13,4 +13,6 @@ public class PizzaOrder
     public int OrderId { get; set; }
     public Order Order { get; set; }
     
+    public State State { get; set; }
+    
 }
