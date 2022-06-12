@@ -2,7 +2,7 @@
   <img class="card-img-top" src="assets/ok.jpg" alt="Card image cap">
   <div class="card-body">
     <h5 class="card-title">{{order.orderId}}</h5>
-    <p class="card-text">{{order.orderState}}</p>
+    <p class="card-text">{{order.orderStateAsString}}</p>
     <button class="btn btn-primary mb-2" routerLink="/orders/{{order.orderId}}">Details</button>
   </div>
 </div>

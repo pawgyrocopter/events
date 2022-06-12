@@ -4,7 +4,7 @@ import {PizzaService} from "../../_services/pizza.service";
 import {TopingService} from "../../_services/toping.service";
 import {AccountService} from "../../_services/account.service";
 import {ToastrService} from "ngx-toastr";
-import {Order} from 'src/app/_models/order';
+import {Order, OrderState} from 'src/app/_models/order';
 import {OrderService} from "../../_services/order.service";
 import {User} from 'src/app/_models/user';
 import {Pizza, State} from "../../_models/pizza";
@@ -48,6 +48,7 @@ export class OrderDetailComponent implements OnInit {
       this.order?.pizzas.forEach(el => {
         el.stateAsString = State[el.state];
       })
+      this.order.orderStateAsString = OrderState[this.order.orderState];
     })
 
   }
@@ -103,6 +104,9 @@ export class OrderDetailComponent implements OnInit {
     // @ts-ignore
     this.orderService.updateOrderState(this.order?.orderId).subscribe(r => {
       console.log(r);
+      if(r === true) { // @ts-ignore
+        this.order.orderStateAsString = OrderState[this.order.orderState];
+      }
     });
   }
 }

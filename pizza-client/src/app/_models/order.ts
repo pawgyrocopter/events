@@ -5,6 +5,7 @@ export interface Order{
   orderId : number
   pizzas: Pizza[]
   orderState : OrderState
+  orderStateAsString: string
 }
 
 export enum OrderState{

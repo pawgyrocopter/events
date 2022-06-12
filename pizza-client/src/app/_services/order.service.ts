@@ -22,7 +22,7 @@ export class OrderService {
 
   getUserOrders(user : User){
     console.log(this.http.get(this.baseUrl + 'order/get-user-orders/' + user.name));
-    return this.http.get(this.baseUrl + 'order/get-user-orders/' + user.name);
+    return this.http.get<Order[]>(this.baseUrl + 'order/get-user-orders/' + user.name);
   }
 
   getOrderById(orderId: string | null){
