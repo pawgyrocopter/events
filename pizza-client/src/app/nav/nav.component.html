@@ -8,20 +8,20 @@
           <a class="nav-link" routerLink="/pizzas" routerLinkActive="active">List of available pizzas</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/cart" routerLinkActive="active">Cart</a>
+          <a class="nav-link" routerLink="/cart" *ngIf="(accountService.currentUser$ | async) !== null" routerLinkActive="active">Cart</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/orders" routerLinkActive="active">Orders</a>
+          <a class="nav-link" routerLink="/orders" *ngIf="(accountService.currentUser$ | async) !== null" routerLinkActive="active">Orders</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" *ngIf="(accountService.currentUser$ | async) === null" routerLink="/register"
              routerLinkActive="active">Register</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/pizza-maker-panel" routerLinkActive="active">Panel</a>
+          <a class="nav-link" routerLink="/pizza-maker-panel" *ngIf="(accountService.currentUser$ | async)?.roles.includes('PizzaMaker')" routerLinkActive="active">Pizza Maker Panel</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a>
+          <a class="nav-link" routerLink="/admin" *ngIf="(accountService.currentUser$ | async)?.roles.includes('Admin')" routerLinkActive="active">Admin Panel</a>
         </li>
       </ng-container>
 

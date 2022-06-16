@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PizzaService} from "../../_services/pizza.service";
 import {Router} from "@angular/router";
 import {TopingService} from "../../_services/toping.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-toping-creation',
@@ -15,7 +16,8 @@ export class TopingCreationComponent implements OnInit {
 
   constructor(private topingService: TopingService,
               private fb: FormBuilder,
-              private router: Router) {
+              private router: Router,
+              private toast : ToastrService) {
     this.creationForm = this.fb.group({
       name: ['', Validators.required]
     });
@@ -30,6 +32,7 @@ export class TopingCreationComponent implements OnInit {
   createToping() {
     this.topingService.createToping(this.creationForm.controls['name'].value).subscribe(response =>{
       console.log(response);
+      this.toast.success('Toping was successfully created');
     }, error => console.log(error));
   }
 }

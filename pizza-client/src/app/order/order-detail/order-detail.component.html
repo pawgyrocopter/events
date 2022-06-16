@@ -33,5 +33,5 @@
       </th>
     </tr>
   </tbody>
-  <button type="submit" class="btn btn-success m-3" style="width: 100%" (click)="updateState(order?.pizzas)">Save Changes</button>
+  <button type="submit" class="btn btn-success m-3" style="width: 100%" *ngIf="(accountService.currentUser$ | async)?.roles.includes('PizzaMaker')" (click)="updateState(order?.pizzas)">Save Changes</button>
 </table>

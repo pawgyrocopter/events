@@ -10,6 +10,7 @@ import {OrderDetailComponent} from "./order/order-detail/order-detail.component"
 import {PizzaMakerPanelComponent} from "./pizza-maker/pizza-maker-panel/pizza-maker-panel.component";
 import {PizzaEditComponent} from "./pizza-maker/pizza-edit/pizza-edit.component";
 import {AdminPanelComponent} from "./admin/admin-panel/admin-panel.component";
+import {AdminGuard} from "./_guards/admin.guard";
 
 const routes: Routes = [
   {
@@ -27,7 +28,12 @@ const routes: Routes = [
   {path: "pizzas/edit/:name", component: PizzaEditComponent},
   {path: "pizza-maker-panel", component: PizzaMakerPanelComponent},
   {path: "register", component: RegisterComponent},
-  {path: "admin", component :AdminPanelComponent},
+  {path : "",
+  runGuardsAndResolvers: "always",
+  canActivate: [AdminGuard],
+  children:[
+    {path: "admin", component :AdminPanelComponent},
+  ]},
 ];
 
 @NgModule({

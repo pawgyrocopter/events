@@ -7,10 +7,18 @@ import {Order} from "../../_models/order";
   styleUrls: ['./order-item.component.css']
 })
 export class OrderItemComponent implements OnInit {
-  @Input() order : Order;
-  constructor() { }
+  @Input() order: Order;
+  image: string = 'assets/';
+
+  constructor() {
+  }
 
   ngOnInit(): void {
+    this.image += this.changeImage();
+  }
+
+  changeImage() {
+    return this.order.orderState === 1 ? 'ok.jpg' : 'making.jpg';
   }
 
 }
