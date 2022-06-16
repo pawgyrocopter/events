@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PizzaApp.DTOs;
@@ -6,7 +7,7 @@ using PizzaApp.Entities;
 using PizzaApp.Interfaces;
 
 namespace PizzaApp.Controllers;
-
+[Authorize(Roles = "Admin")]
 public class AdminController : BaseApiController
 {
     private readonly IUnitOfWork _unitOfWork;

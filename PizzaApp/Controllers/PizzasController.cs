@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PizzaApp.Data;
@@ -10,6 +11,7 @@ using PizzaApp.Services;
 
 namespace PizzaApp.Controllers;
 
+[Authorize]
 public class PizzasController : BaseApiController
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -32,6 +34,7 @@ public class PizzasController : BaseApiController
         return await _unitOfWork.PizzaRepository.GetPizza(name);
     }
 
+    [Authorize(Roles = "PizzaMaker")]
     [HttpPost("add-pizza")]
     public async Task<ActionResult<Pizza>> AddPizza(IFormFile file, [FromQuery] PizzaDto pizzaDto)
     {
@@ -40,6 +43,7 @@ public class PizzasController : BaseApiController
         return pizza;
     }
 
+    [Authorize(Roles = "PizzaMaker")]
     [HttpPut]
     public async Task<ActionResult<PizzaDto>> UpdatePizza([FromBody] PizzaDto pizzaDto)
     {
@@ -48,6 +52,7 @@ public class PizzasController : BaseApiController
         return pizza;
     }
 
+    [Authorize(Roles = "PizzaMaker")]
     [HttpPut("{pizzaId:int}/{state:int}")]
     public async Task<ActionResult<PizzaDto>> UpdateStateOfOrderedPizza([FromRoute] int pizzaId, [FromRoute] int state)
     {

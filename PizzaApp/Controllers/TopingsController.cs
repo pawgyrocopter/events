@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PizzaApp.Data;
@@ -9,6 +10,7 @@ using PizzaApp.Interfaces;
 
 namespace PizzaApp.Controllers;
 
+[Authorize]
 public class TopingsController : BaseApiController
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -24,6 +26,7 @@ public class TopingsController : BaseApiController
         return await _unitOfWork.TopingRepository.GetTopings();
     }
 
+    [Authorize(Roles = "PizzaMaker")]
     [HttpPost]
     public async Task<ActionResult<TopingDto>> CreateToping([FromBody]TopingDto topingDto)
     {

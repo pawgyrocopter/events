@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using PizzaApp.SignalR;
 
 namespace PizzaApp.Controllers;
 
+[Authorize]
 public class OrderController : BaseApiController
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -60,6 +62,7 @@ public class OrderController : BaseApiController
         return await _unitOfWork.OrderRepository.GetOrderById(orderId);
     }
 
+    [Authorize(Roles = "PizzaMaker")]
     [HttpPut("{orderId}")]
     public async Task<bool> UpdateOrderState(int orderId)
     {

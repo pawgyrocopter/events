@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import {NgbDropdown, NgbDropdownModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { RegisterComponent } from './register/register.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { PizzaListComponent } from './pizzas/pizza-list/pizza-list.component';
@@ -34,6 +34,7 @@ import { RolesModalComponent } from './modals/roles-modal/roles-modal.component'
 import { OrderManagingListComponent } from './pizza-maker/order-managing-list/order-managing-list.component';
 import {StateModalComponent} from "./modals/state-modal/state-modal.component";
 import {MDCMenu} from "@material/menu";
+import {JwtInterceptor} from "./_interceptors/jwt.interceptor";
 
 @NgModule({
   declarations: [
@@ -75,7 +76,9 @@ import {MDCMenu} from "@material/menu";
     TabsModule,
     BsDropdownModule.forRoot(),
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
