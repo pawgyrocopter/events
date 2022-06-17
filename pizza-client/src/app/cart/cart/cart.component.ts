@@ -33,6 +33,7 @@ export class CartComponent implements OnInit {
 
   orderCreate(user : User) {
     console.log(user.cart);
+    // @ts-ignore
     this.orderService.createOrder(user).subscribe(response => {
       console.log(response);
       this.user.cart.pizzas = [];

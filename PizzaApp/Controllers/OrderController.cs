@@ -19,19 +19,21 @@ public class OrderController : BaseApiController
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly DataContext _context;
-    private readonly IHubContext<OrderHub> _hub;
+    private readonly IHubContext<OrderHub, IOrderHub> _hub;
 
-    public OrderController(IUnitOfWork unitOfWork, IMapper mapper, DataContext context)
+    public OrderController(IUnitOfWork unitOfWork, IMapper mapper, DataContext context, IHubContext<OrderHub, IOrderHub> hub)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _context = context;
+        _hub = hub;
     }
     [HttpPost("create-order")]
     public async Task<OrderDto> CreateOrder(OrderDto orderDto)
     {
        var order =  await _unitOfWork.OrderRepository.CreateOrder(orderDto);
         await _unitOfWork.Complete();
+        await _hub.Clients.All.SendMessage();  
         return order;
     }
 

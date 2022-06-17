@@ -3,6 +3,8 @@ import {OrderService} from "../../_services/order.service";
 import {AccountService} from "../../_services/account.service";
 import {User} from "../../_models/user";
 import {Order, OrderState} from "../../_models/order";
+import {HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-order-list',
@@ -20,6 +22,20 @@ export class OrderListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getOrders();
+    const connection = new HubConnectionBuilder()
+      .configureLogging(LogLevel.Information)
+      .withUrl(environment.hubUrl + 'orders')
+      .build();
+
+    connection.start().then(function () {
+      console.log('SignalR Connected!');
+    }).catch(function (err) {
+      return console.error(err.toString());
+    });
+
+    connection.on("SendMessage", () => {
+      this.getOrders();
+    });
   }
 
   getOrders(){

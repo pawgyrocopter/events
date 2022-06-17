@@ -21,7 +21,7 @@ export class PresenceService {
 
   createHubConnection(user: User) {
     this.hubConnection = new HubConnectionBuilder()
-      .withUrl(this.hubUrl + 'presence', {
+      .withUrl(this.hubUrl + 'orders', {
         accessTokenFactory: () => user.token
       })
       .withAutomaticReconnect()
@@ -29,28 +29,6 @@ export class PresenceService {
     this.hubConnection
       .start()
       .catch(error => console.log(error));
-
-    this.hubConnection.on('UserIsOnline', userName => {
-      this.onlineUsers$.pipe(take(1)).subscribe(userNames => {
-        this.onlineUsersSource.next([...userNames, userName])
-      })
-    })
-
-    this.hubConnection.on('UserIsOffline', userName => {
-      this.onlineUsers$.pipe(take(1)).subscribe(userNames => {
-        this.onlineUsersSource.next([...userNames.filter(x => x !== userName)])
-      })
-    })
-
-    this.hubConnection.on('GetOnlineUsers', (userNames: string[]) => {
-      this.onlineUsersSource.next(userNames);
-    })
-
-    this.hubConnection.on('NewMessageReceived',
-      ({userName, knownAs}) => this.toastr.info(knownAs + ' has sent u a new message!')
-        .onTap
-        .pipe(take(1))
-        .subscribe(() => this.router.navigateByUrl('/members/' + userName + '?tab=3')));
   }
 
   stopHubConnection() {

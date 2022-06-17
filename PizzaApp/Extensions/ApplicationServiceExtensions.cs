@@ -20,6 +20,7 @@ public static class ApplicationServiceExtensions
         services.AddScoped<ITopingRepository, TopingRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddSignalR();
         // services.AddSingleton<StateCheckerService>();
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         services.AddDbContext<DataContext>(options =>

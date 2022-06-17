@@ -31,7 +31,7 @@ app.UseCors(policy => policy
     .WithOrigins("http://localhost:4200"));
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.MapHub<OrderHub>("hubs/orders");
 app.MapControllers();
 // app.MapHub<OrderHub>("/order");
 using var scope = app.Services.CreateScope();

@@ -2,7 +2,7 @@
 
 namespace PizzaApp.SignalR;
 
-public class OrderHub : Hub
+public class OrderHub : Hub<IOrderHub>
 {
     
 }

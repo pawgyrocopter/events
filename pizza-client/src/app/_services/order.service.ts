@@ -3,12 +3,15 @@ import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {User} from "../_models/user";
 import {Order} from "../_models/order";
+import {HubConnection} from "@microsoft/signalr";
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
   baseUrl = environment.apiUrl;
+  hubUrl = environment.hubUrl;
+  private hubConnection: HubConnection;
   constructor(private http:HttpClient) { }
 
   createOrder(user : User){
@@ -17,6 +20,7 @@ export class OrderService {
       name : user.name,
     }
     console.log(order);
+    //return this.hubConnection.invoke('SendMessage', order.name, '123');
     return this.http.post(this.baseUrl + 'order/create-order', order);
   }
 
