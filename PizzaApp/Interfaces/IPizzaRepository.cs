@@ -12,4 +12,6 @@ public interface IPizzaRepository
     Task<ActionResult<PizzaDto>> UpdatePizza(PizzaDto pizzaDto);
     Task<PizzaDto> UpdatePizzaOrderState(int pizzaId, int state);
     Task<IEnumerable<PizzaDto>> GetPizzasByOrderId(int orderId);
+
+    Task<Pizza> GetPizzaByName(string pizzaName);
 }

@@ -40,6 +40,11 @@ public class PizzaRepository : IPizzaRepository
         return pizza;
     }
 
+    public async Task<Pizza> GetPizzaByName(string pizzaName)
+    {
+        return await _context.Pizzas.FirstOrDefaultAsync(x => x.Name.Equals(pizzaName));
+    }
+
     public async Task<ActionResult<Pizza>> AddPizza([FromBody] IFormFile file, PizzaDto pizzaDto)
     {
         var result = await _photoService.AddPhotoAsync(file);

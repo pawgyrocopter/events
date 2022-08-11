@@ -20,19 +20,20 @@ public class OrderController : BaseApiController
     private readonly IMapper _mapper;
     private readonly DataContext _context;
     private readonly IHubContext<OrderHub, IOrderHub> _hub;
+    private readonly IOrderService _orderService;
 
-    public OrderController(IUnitOfWork unitOfWork, IMapper mapper, DataContext context, IHubContext<OrderHub, IOrderHub> hub)
+    public OrderController(IUnitOfWork unitOfWork, IMapper mapper, DataContext context, IHubContext<OrderHub, IOrderHub> hub, IOrderService orderService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
         _context = context;
         _hub = hub;
+        _orderService = orderService;
     }
     [HttpPost("create-order")]
     public async Task<OrderDto> CreateOrder(OrderDto orderDto)
     {
-       var order =  await _unitOfWork.OrderRepository.CreateOrder(orderDto);
-        await _unitOfWork.Complete();
+        var order =  await _orderService.CreateOrderAsync(orderDto);
         await _hub.Clients.All.SendMessage();  
         return order;
     }
@@ -40,22 +41,13 @@ public class OrderController : BaseApiController
     [HttpGet()]
     public async Task<IEnumerable<OrderDto>> GetOrders()
     {
-        return await _unitOfWork.OrderRepository.GetOrders();
-        // return await _context.Orders
-        //     .Include(x => x.User)
-        //     .Include(x => x.Pizzas)
-        //     .ThenInclude(x => x.Pizza)
-        var pizzas = await _context.PizzaOrders
-            .Include(t => t.Topings)
-            .ProjectTo<PizzaDto>(_mapper.ConfigurationProvider)
-            .ToListAsync();
-        return null;
+        return await _orderService.GetOrdersAsync();
     }
 
     [HttpGet("get-user-orders/{name}")]
     public async Task<IEnumerable<OrderDto>> GerUserOrders(string name)
     {
-        return await _unitOfWork.OrderRepository.GerUserOrders(name);
+        return await _orderService.GetUserOrdersAsync(name);
     }
 
     [HttpGet("{orderId}")]
@@ -68,7 +60,7 @@ public class OrderController : BaseApiController
     [HttpPut("{orderId}")]
     public async Task<bool> UpdateOrderState(int orderId)
     {
-        return await _unitOfWork.OrderRepository.UpdateOrderState(orderId);
+        return await _orderService.UpdateOrderState(orderId);
     }
 
 }

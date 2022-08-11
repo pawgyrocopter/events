@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PizzaApp.Data;
+using PizzaApp.Entities;
 using PizzaApp.Helpers;
 using PizzaApp.Interfaces;
 using PizzaApp.Services;
@@ -20,6 +21,7 @@ public static class ApplicationServiceExtensions
         services.AddScoped<ITopingRepository, TopingRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IOrderService, OrderService>();
         services.AddSignalR();
         // services.AddSingleton<StateCheckerService>();
         var connectionString = configuration.GetConnectionString("DefaultConnection");

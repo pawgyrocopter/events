@@ -30,4 +30,9 @@ public class TopingRepository : ITopingRepository
         await _context.Topings.AddAsync(toping);
         return _mapper.Map<TopingDto>(toping);
     }
+
+    public async Task<Toping> GetTopingById(int topingId)
+    {
+        return await _context.Topings.FirstOrDefaultAsync(x => x.Id == topingId);
+    }
 }
