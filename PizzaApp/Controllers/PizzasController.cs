@@ -14,13 +14,11 @@ namespace PizzaApp.Controllers;
 [Authorize]
 public class PizzasController : BaseApiController
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IPizzaService _pizzaService;
 
 
-    public PizzasController(IUnitOfWork unitOfWork, IPizzaService pizzaService)
+    public PizzasController(IPizzaService pizzaService)
     {
-        _unitOfWork = unitOfWork;
         _pizzaService = pizzaService;
     }
 
@@ -59,9 +57,6 @@ public class PizzasController : BaseApiController
     public async Task<ActionResult<PizzaDto>> UpdateStateOfOrderedPizza([FromRoute] int pizzaId, [FromRoute] int state)
     {
         return await _pizzaService.UpdatePizzaOrderState(pizzaId, state);
-        var pizza = await _unitOfWork.PizzaRepository.UpdatePizzaOrderState(pizzaId, state);
-        await _unitOfWork.Complete();
-        return pizza;
     }
 
     [HttpGet("orders/{orderId}")]

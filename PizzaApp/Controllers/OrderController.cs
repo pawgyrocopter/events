@@ -16,25 +16,20 @@ namespace PizzaApp.Controllers;
 [Authorize]
 public class OrderController : BaseApiController
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
-    private readonly DataContext _context;
     private readonly IHubContext<OrderHub, IOrderHub> _hub;
     private readonly IOrderService _orderService;
 
-    public OrderController(IUnitOfWork unitOfWork, IMapper mapper, DataContext context, IHubContext<OrderHub, IOrderHub> hub, IOrderService orderService)
+    public OrderController(IHubContext<OrderHub, IOrderHub> hub, IOrderService orderService)
     {
-        _unitOfWork = unitOfWork;
-        _mapper = mapper;
-        _context = context;
         _hub = hub;
         _orderService = orderService;
     }
+
     [HttpPost("create-order")]
     public async Task<OrderDto> CreateOrder(OrderDto orderDto)
     {
-        var order =  await _orderService.CreateOrderAsync(orderDto);
-        await _hub.Clients.All.SendMessage();  
+        var order = await _orderService.CreateOrderAsync(orderDto);
+        await _hub.Clients.All.SendMessage();
         return order;
     }
 
@@ -53,7 +48,7 @@ public class OrderController : BaseApiController
     [HttpGet("{orderId}")]
     public async Task<OrderDto> GetOrderById(int orderId)
     {
-        return await _unitOfWork.OrderRepository.GetOrderById(orderId);
+        return await _orderService.GerOrderById(orderId);
     }
 
     [Authorize(Roles = "PizzaMaker")]
@@ -62,5 +57,4 @@ public class OrderController : BaseApiController
     {
         return await _orderService.UpdateOrderState(orderId);
     }
-
 }

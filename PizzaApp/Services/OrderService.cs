@@ -66,4 +66,9 @@ public class OrderService : IOrderService
         return (await _unitOfWork.OrderRepository.GerUserOrders(name))
             .ProjectTo<OrderDto>(_mapper.ConfigurationProvider);
     }
+
+    public async Task<OrderDto> GerOrderById(int orderId)
+    {
+        return _mapper.Map<OrderDto>(await _unitOfWork.OrderRepository.GetOrderByIdAsync(orderId));
+    }
 }
