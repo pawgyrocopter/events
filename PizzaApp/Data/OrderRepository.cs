@@ -82,4 +82,11 @@ public class OrderRepository : IOrderRepository
             .ThenInclude(x => x.Pizza)
             .FirstOrDefaultAsync(x => x.Id == orderId);
     }
+
+    public async Task<Order> GetOrderByPizzaId(int pizzaOrderId)
+    {
+       return await _context.Orders
+           .Include(p => p.Pizzas)
+           .FirstOrDefaultAsync(x => x.Id == pizzaOrderId);
+    }
 }

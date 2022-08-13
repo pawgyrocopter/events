@@ -6,12 +6,14 @@ namespace PizzaApp.Interfaces;
 
 public interface IPizzaRepository
 {
-    Task<IEnumerable<PizzaDto>> GetPizzas();
-    Task<ActionResult<PizzaDto>> GetPizza(string name);
-    Task<ActionResult<Pizza>> AddPizza(IFormFile file, [FromQuery] PizzaDto pizzaDto);//should be changed
-    Task<ActionResult<PizzaDto>> UpdatePizza(PizzaDto pizzaDto);
+    Task<IQueryable<Pizza>> GetPizzas();
+    Task<Pizza> GetPizza(string name);
+    Task<Pizza> AddPizza(Pizza pizza, Photo photo);//should be changed
+    Task<Pizza> UpdatePizza(Pizza pizza);
     Task<PizzaDto> UpdatePizzaOrderState(int pizzaId, int state);
-    Task<IEnumerable<PizzaDto>> GetPizzasByOrderId(int orderId);
+    Task<IQueryable<PizzaOrder>> GetPizzasByOrderId(int orderId);
 
     Task<Pizza> GetPizzaByName(string pizzaName);
+
+    Task<PizzaOrder> GetPizzaOrderById(int pizzaOrderId);
 }

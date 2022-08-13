@@ -11,4 +11,5 @@ public interface IOrderRepository
     Task<IQueryable<Order>> GerUserOrders(string name);
     Task<OrderDto> GetOrderById(int orderId);
     Task<Order> GetOrderByIdAsync(int orderId);
+    Task<Order> GetOrderByPizzaId(int pizzaOrderId);
 }

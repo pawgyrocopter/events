@@ -22,21 +22,18 @@ public class PizzaRepository : IPizzaRepository
         _photoService = photoService;
     }
 
-    public async Task<IEnumerable<PizzaDto>> GetPizzas()
+    public async Task<IQueryable<Pizza>> GetPizzas()
     {
-        return await _context.Pizzas
-            .Include(p => p.Photo)
-            .ProjectTo<PizzaDto>(_mapper.ConfigurationProvider)
-            .ToListAsync();
+        return _context.Pizzas
+            .Include(p => p.Photo);
     }
 
 
-    public async Task<ActionResult<PizzaDto>> GetPizza(string name)
+    public async Task<Pizza> GetPizza(string name)
     {
         var pizza = await _context.Pizzas
             .Include(p => p.Photo)
-            .ProjectTo<PizzaDto>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(x => x.Name == name);
-        pizza.Topings = new List<TopingDto>();
+            .FirstOrDefaultAsync(x => x.Name == name);
         return pizza;
     }
 
@@ -45,40 +42,20 @@ public class PizzaRepository : IPizzaRepository
         return await _context.Pizzas.FirstOrDefaultAsync(x => x.Name.Equals(pizzaName));
     }
 
-    public async Task<ActionResult<Pizza>> AddPizza([FromBody] IFormFile file, PizzaDto pizzaDto)
+   
+
+    public async Task<Pizza> AddPizza(Pizza pizza,Photo photo)
     {
-        var result = await _photoService.AddPhotoAsync(file);
-
-        // if (result.Error != null) return BadRequest(result.Error.Message);
-
-        var photo = new Photo()
-        {
-            Url = result.SecureUrl.AbsoluteUri,
-            PublicId = result.PublicId
-        };
-        var pizza = new Pizza()
-        {
-            Name = pizzaDto.Name,
-            Photo = photo,
-            Cost = pizzaDto.Cost,
-            Ingredients = pizzaDto.Ingredients,
-            Weight = pizzaDto.Weight,
-            State = State.Pending,
-        };
         _context.Pizzas.Add(pizza);
         _context.Photos.Add(photo);
-
+        //Test sync threads
         return pizza;
     }
 
-    public async Task<ActionResult<PizzaDto>> UpdatePizza(PizzaDto pizzaDto)
+    public async Task<Pizza> UpdatePizza(Pizza pizza)
     {
-        var pizza = await _context.Pizzas.FirstOrDefaultAsync(x => x.Name == pizzaDto.Name);
-        pizza.Cost = pizzaDto.Cost;
-        pizza.Ingredients = pizzaDto.Ingredients;
-        pizza.Weight = pizzaDto.Weight;
         _context.Pizzas.Update(pizza);
-        return _mapper.Map<PizzaDto>(pizza);
+        return pizza;
     }
 
     public async Task<PizzaDto> UpdatePizzaOrderState(int pizzaId,int state)
@@ -101,9 +78,14 @@ public class PizzaRepository : IPizzaRepository
         }
         return _mapper.Map<PizzaDto>(pizza);
     }
-
-    public async Task<IEnumerable<PizzaDto>> GetPizzasByOrderId(int orderId)
+    public async Task<PizzaOrder> GetPizzaOrderById(int pizzaOrderId)
     {
-        return _context.PizzaOrders.Where(x => x.OrderId == orderId).ProjectTo<PizzaDto>(_mapper.ConfigurationProvider);
+        return  await _context.PizzaOrders.Include(x => x.Order).ThenInclude(d => d.Pizzas)
+            .FirstOrDefaultAsync(x => x.Id == pizzaOrderId);
     }
+    public async Task<IQueryable<PizzaOrder>> GetPizzasByOrderId(int orderId)
+    {
+        return _context.PizzaOrders.Where(x => x.OrderId == orderId);
+    }
+    
 }

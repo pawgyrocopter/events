@@ -22,6 +22,7 @@ public static class ApplicationServiceExtensions
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IPizzaService, PizzaService>();
         services.AddSignalR();
         // services.AddSingleton<StateCheckerService>();
         var connectionString = configuration.GetConnectionString("DefaultConnection");
