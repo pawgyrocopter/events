@@ -6,8 +6,8 @@ namespace PizzaApp.Interfaces;
 
 public interface ITopingRepository
 {
-    Task<ActionResult<IEnumerable<TopingDto>>> GetTopings();
-    Task<ActionResult<TopingDto>> CreateToping(string name);
+    Task<IQueryable<Toping>> GetTopings();
+    Task<Toping> CreateToping(string name);
 
     Task<Toping> GetTopingById(int topingId);
 }

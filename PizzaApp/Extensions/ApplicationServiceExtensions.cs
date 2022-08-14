@@ -23,6 +23,7 @@ public static class ApplicationServiceExtensions
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IPizzaService, PizzaService>();
+        services.AddScoped<ITopingService, TopingService>();
         services.AddSignalR();
         // services.AddSingleton<StateCheckerService>();
         var connectionString = configuration.GetConnectionString("DefaultConnection");

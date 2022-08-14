@@ -15,8 +15,7 @@ namespace PizzaApp.Controllers;
 public class PizzasController : BaseApiController
 {
     private readonly IPizzaService _pizzaService;
-
-
+    
     public PizzasController(IPizzaService pizzaService)
     {
         _pizzaService = pizzaService;
@@ -38,8 +37,6 @@ public class PizzasController : BaseApiController
     [HttpPost("add-pizza")]
     public async Task<ActionResult<PizzaDto>> AddPizza(IFormFile file, [FromQuery] PizzaDto pizzaDto)
     {
-        // var pizza = await _unitOfWork.PizzaRepository.AddPizza(file, pizzaDto);
-        // await _unitOfWork.Complete();
         return await _pizzaService.AddPizza(file, pizzaDto);
     }
 
@@ -47,8 +44,6 @@ public class PizzasController : BaseApiController
     [HttpPut]
     public async Task<ActionResult<PizzaDto>> UpdatePizza([FromBody] PizzaDto pizzaDto)
     {
-        // var pizza = await _unitOfWork.PizzaRepository.UpdatePizza(pizzaDto);
-        // await _unitOfWork.Complete();
         return await _pizzaService.UpdatePizza(pizzaDto);
     }
 
@@ -60,9 +55,8 @@ public class PizzasController : BaseApiController
     }
 
     [HttpGet("orders/{orderId}")]
-    public async Task<IEnumerable<PizzaDto>> GetPizzasByOrderId([FromRoute]int orderId)
+    public async Task<IEnumerable<PizzaDto>> GetPizzasByOrderId([FromRoute] int orderId)
     {
         return await _pizzaService.GetPizzasByOrderId(orderId);
-        // return await _unitOfWork.PizzaRepository.GetPizzasByOrderId(orderId);
     }
 }

@@ -19,16 +19,16 @@ public class TopingRepository : ITopingRepository
         _mapper = mapper;
     }
 
-    public async Task<ActionResult<IEnumerable<TopingDto>>> GetTopings()
+    public async Task<IQueryable<Toping>> GetTopings()
     {
-        return await _mapper.ProjectTo<TopingDto>(_context.Topings).ToListAsync();
+        return _context.Topings.AsQueryable();
     }
 
-    public async Task<ActionResult<TopingDto>> CreateToping(string name)
+    public async Task<Toping> CreateToping(string name)
     {
         var toping = new Toping() {Name = name};
         await _context.Topings.AddAsync(toping);
-        return _mapper.Map<TopingDto>(toping);
+        return toping;
     }
 
     public async Task<Toping> GetTopingById(int topingId)
