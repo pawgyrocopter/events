@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PizzaApp.Data;
-using PizzaApp.Entities;
-using PizzaApp.Helpers;
-using PizzaApp.Interfaces;
-using PizzaApp.Services;
+﻿using Domain.Helpers;
+using Domain.Interfaces.IRepository;
+using Domain.Interfaces.IServices;
+using Infrastructure.Data;
+using Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace PizzaApp.Extensions;
 

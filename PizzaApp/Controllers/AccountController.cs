@@ -1,10 +1,6 @@
-﻿using System.Security.Cryptography;
-using Microsoft.AspNetCore.Identity;
+﻿using Domain.DTOs;
+using Domain.Interfaces.IServices;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PizzaApp.DTOs;
-using PizzaApp.Entities;
-using PizzaApp.Interfaces;
 
 namespace PizzaApp.Controllers;
 

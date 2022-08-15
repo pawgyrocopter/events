@@ -1,14 +1,8 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
+﻿using Domain.DTOs;
+using Domain.Interfaces.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using PizzaApp.Data;
-using PizzaApp.DTOs;
-using PizzaApp.Entities;
-using PizzaApp.Interfaces;
 using PizzaApp.SignalR;
 
 namespace PizzaApp.Controllers;

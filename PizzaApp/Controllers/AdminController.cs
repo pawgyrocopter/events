@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Domain.Interfaces.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PizzaApp.DTOs;
-using PizzaApp.Entities;
-using PizzaApp.Interfaces;
 
 namespace PizzaApp.Controllers;
 [Authorize(Roles = "Admin")]

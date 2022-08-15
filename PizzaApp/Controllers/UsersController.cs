@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Domain.Entities;
+using Domain.Interfaces.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PizzaApp.Data;
-using PizzaApp.Entities;
-using PizzaApp.Interfaces;
 
 namespace PizzaApp.Controllers;
 

@@ -1,12 +1,7 @@
-﻿using AutoMapper;
+﻿using Domain.DTOs;
+using Domain.Interfaces.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PizzaApp.Data;
-using PizzaApp.DTOs;
-using PizzaApp.Entities;
-using PizzaApp.Helpers;
-using PizzaApp.Interfaces;
 
 namespace PizzaApp.Controllers;
 
@@ -24,7 +19,7 @@ public class TopingsController : BaseApiController
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TopingDto>>> GetTopings()
     {
-        return await _topingService.GetTopings();
+        return (await _topingService.GetTopings()).ToList();
     }
 
     [Authorize(Roles = "PizzaMaker")]
