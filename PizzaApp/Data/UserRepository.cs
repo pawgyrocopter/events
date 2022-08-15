@@ -17,9 +17,9 @@ public class UserRepository : IUserRepository
         _mapper = mapper;
     }
     
-    public async Task<IEnumerable<User>> GetUsers()
+    public async Task<IQueryable<User>> GetUsers()
     {
-        return await _context.Users.ToListAsync();
+        return _context.Users;
     }
 
     public async Task<User> GetUserByName(string name)
