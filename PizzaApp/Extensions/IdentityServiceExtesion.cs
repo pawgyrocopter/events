@@ -1,9 +1,9 @@
 ﻿using System.Text;
+using Domain.Entities;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using PizzaApp.Data;
-using PizzaApp.Entities;
 
 namespace PizzaApp.Extensions;
 

@@ -1,25 +1,23 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Domain.Entities;
+using Domain.Interfaces.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PizzaApp.Data;
-using PizzaApp.Entities;
-using PizzaApp.Interfaces;
 
 namespace PizzaApp.Controllers;
 
 public class UsersController : BaseApiController
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IUserService _userService;
 
-    public UsersController(IUnitOfWork unitOfWork )
+    public UsersController(IUserService userService )
     {
-        _unitOfWork = unitOfWork;
+        _userService = userService;
     }
 
     [HttpGet]
     [Authorize]
     public async Task<IEnumerable<User>> GetUsers()
     {
-        return await _unitOfWork.UserRepository.GetUsers();
+        return await _userService.GetUsers();
     }
 }

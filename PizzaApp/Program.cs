@@ -1,8 +1,7 @@
-using System.Text.Json.Serialization;
+using Domain.Entities;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using PizzaApp.Data;
-using PizzaApp.Entities;
 using PizzaApp.Extensions;
 using PizzaApp.SignalR;
 

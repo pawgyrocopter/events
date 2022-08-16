@@ -1,37 +1,31 @@
-﻿using AutoMapper;
+﻿using Domain.DTOs;
+using Domain.Interfaces.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PizzaApp.Data;
-using PizzaApp.DTOs;
-using PizzaApp.Entities;
-using PizzaApp.Helpers;
-using PizzaApp.Interfaces;
 
 namespace PizzaApp.Controllers;
 
 [Authorize]
 public class TopingsController : BaseApiController
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly ITopingService _topingService;
 
-    public TopingsController(IUnitOfWork unitOfWork)
+
+    public TopingsController(ITopingService topingService)
     {
-        _unitOfWork = unitOfWork;
+        _topingService = topingService;
     }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TopingDto>>> GetTopings()
     {
-        return await _unitOfWork.TopingRepository.GetTopings();
+        return (await _topingService.GetTopings()).ToList();
     }
 
     [Authorize(Roles = "PizzaMaker")]
     [HttpPost]
-    public async Task<ActionResult<TopingDto>> CreateToping([FromBody]TopingDto topingDto)
+    public async Task<ActionResult<TopingDto>> CreateToping([FromBody] TopingDto topingDto)
     {
-        var toping = await _unitOfWork.TopingRepository.CreateToping(topingDto.Name);
-        await _unitOfWork.Complete();
-        return toping;
+        return await _topingService.CreateToping(topingDto.Name);
     }
 }
