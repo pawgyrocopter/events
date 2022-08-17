@@ -5,6 +5,12 @@ pizza-client/.vscode
 pizza-client/.angular
 pizza-client/dist
 
+Infrastructure/obj
+Infrastructure/bin
+
+Domain/obj
+Domain/bin
+
 PizzaApp/bin
 PizzaApp/obj
 PizzaApp/appsettings.json
