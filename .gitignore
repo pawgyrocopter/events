@@ -2,4 +2,5 @@
 /EventApi/bin
 /EventApi/ob
 .idea
-
+/EventDatabase/obj
+/EventDatabase/bin
