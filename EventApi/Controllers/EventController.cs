@@ -2,6 +2,7 @@
 using EventApi.Models;
 using EventDatabase;
 using EventDatabase.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ public class EventController : BaseController
     }
 
     
+    [Authorize]
     [HttpGet]
     public ActionResult<List<EventModel>> GetEvents()
     {

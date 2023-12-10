@@ -8,7 +8,6 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 {
     public DbSet<EventEntity> Events { get; set; }
 
-    public string DbPath => @"C:Users\kR9_h\Desktop\МЗИ\EventApi\app.db";
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
