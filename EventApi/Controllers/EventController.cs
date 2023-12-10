@@ -9,10 +9,9 @@ namespace EventApi.Controllers;
 
 public class EventController : BaseController
 {
-    private readonly DatabaseContext _context;
-
+    private readonly ApplicationDbContext _context;
     
-    public EventController(DatabaseContext context, ILogger<EventController> logger) : base(logger)
+    public EventController(ApplicationDbContext context, ILogger<EventController> logger) : base(logger)
     {
         _context = context;
     }
@@ -26,6 +25,12 @@ public class EventController : BaseController
 
     [HttpGet("{id:guid}")]
     public ActionResult<EventEntity?> GetEvent(Guid id)
+    {
+        return _context.Events.FirstOrDefault(x => x.Id == id);
+    }
+    
+    [HttpPut("{id:guid}")]
+    public ActionResult<EventEntity?> UpdateEvent(Guid id)
     {
         return _context.Events.FirstOrDefault(x => x.Id == id);
     }
