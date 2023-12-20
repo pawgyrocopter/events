@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaApp", "PizzaApp\PizzaApp.csproj", "{7E90F5EA-8BAF-47C2-9B54-A6C594301876}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventApi", "EventApi\EventApi.csproj", "{7E90F5EA-8BAF-47C2-9B54-A6C594301876}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{18B356D3-89CE-42DF-8F53-9E7D4935346D}"
 EndProject

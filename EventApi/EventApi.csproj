@@ -2,8 +2,10 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <Nullable>enable</Nullable>
+        <Nullable>disable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <ContainerImageName>pawgyrocopter/eventapi</ContainerImageName>
+        <RootNamespace>PizzaApp</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -16,6 +18,7 @@
         </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.5" />
         <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.17.0" />
+        <PackageReference Include="Microsoft.NET.Build.Containers" Version="8.0.100" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.17.0" />
     </ItemGroup>

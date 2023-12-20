@@ -19,26 +19,34 @@ public class AccountService : IAccountService
         _signInManager = signInManager;
         _tokenService = tokenService;
     }
-    
+
     public async Task<UserDto> Register(RegisterDto registerDto)
     {
-        if (await UserExists(registerDto.Email)) throw new UnauthorizedAccessException("Email is already in use");
+        if (await UserExists(registerDto.Email))
+            throw new UnauthorizedAccessException("Email is already in use");
 
         var user = new User()
         {
             Email = registerDto.Email,
             PhoneNumber = registerDto.PhoneNumber,
             UserName = registerDto.Name,
-            Adress = registerDto.Adress
         };
 
         user.Email = registerDto.Email.ToLower();
 
         var result = await _userManager.CreateAsync(user, registerDto.Password);
-        if (!result.Succeeded) throw new ApplicationException(result.Errors.ToString());
-
+        if (!result.Succeeded)
+        {
+            Console.WriteLine(result.Errors.ToString());
+            throw new ApplicationException(result.Errors.ToString());
+        }
+        
         var roleResult = await _userManager.AddToRoleAsync(user, "Customer");
-        if (!roleResult.Succeeded) throw new ApplicationException(result.Errors.ToString());
+        if (!roleResult.Succeeded)
+        {
+            Console.WriteLine(result.Errors.ToString());
+            throw new ApplicationException(result.Errors.ToString());
+        }
 
         return new UserDto()
         {

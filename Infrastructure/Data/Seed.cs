@@ -12,12 +12,15 @@ public class Seed
 
         var roles = new List<Role>()
         {
-            new() {Id = 1, Name = "Customer"},
-            new() {Id = 2, Name = "PizzaMaker"},
-            new() {Id = 3, Name = "Admin"}
+            new() {Id = Guid.NewGuid(), Name = "Customer"},
+            new() {Id = Guid.NewGuid(), Name = "Admin"}
         };
-        
-        foreach (var role in roles) await roleManager.CreateAsync(role);
+
+        foreach (var role in roles)
+        {
+            Console.WriteLine(role.Name + "created");
+            await roleManager.CreateAsync(role);
+        }
         
         // for (int i = 0; i < 10; i++)
         // {
@@ -28,11 +31,11 @@ public class Seed
 
         var admin = new User()
         {
-            Id = 11,
+            Id = Guid.NewGuid(),
             UserName = "admin"
         };
         
         await userManager.CreateAsync(admin, "123123");
-        await userManager.AddToRolesAsync(admin, new[] {"Admin", "PizzaMaker", "Customer"});
+        await userManager.AddToRolesAsync(admin, new[] {"Admin", "Customer"});
     }
 }

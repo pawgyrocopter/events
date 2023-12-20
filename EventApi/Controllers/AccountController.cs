@@ -1,4 +1,5 @@
 ﻿using Domain.DTOs;
+using Domain.Entities;
 using Domain.Interfaces.IServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,13 +18,32 @@ public class AccountController : BaseApiController
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
         //try catch for errors
-        return await _accountService.Register(registerDto);
+        UserDto userDto;
+        try
+        {
+            userDto = await _accountService.Register(registerDto);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+        return userDto;
     }
 
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
-        //try catch for errors
-        return await _accountService.Login(loginDto);
+        UserDto userDto;
+        try
+        {
+            userDto =  await _accountService.Login(loginDto);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+        return userDto;
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Domain.Entities;
 
-public class User : IdentityUser<int>
+public class User : IdentityUser<Guid>
 {
-    public string Adress { get; set; }
-    public ICollection<Order> Orders { get; set; }
-    public ICollection<UserRole> UserRoles { get; set; }
+    public List<Event> Events { get; set; }
+    
+    public List<UserRole> UserRoles { get; set; }
 }
