@@ -16,7 +16,9 @@ public class AutoMapperProfiles: Profile
             .ForMember(d => d.Name, e 
                 => e.MapFrom(x => x.UserName))
             .ForMember(d => d.Id, e 
-                => e.MapFrom(x => x.Id));
+                => e.MapFrom(x => x.Id))
+            .ForMember(d => d.Email, e 
+                => e.MapFrom(x => x.Email));
         
         CreateMap<Event, EventDto>();
     }

@@ -1,4 +1,6 @@
-﻿using Domain.DTOs;
+﻿using AutoMapper;
+using Domain.DTOs;
+using Domain.DTOs.Events;
 using Domain.DTOs.User;
 using Domain.Entities;
 using Domain.Interfaces.IServices;
@@ -14,11 +16,13 @@ public class UsersController : BaseApiController
 {
     private readonly UserManager<User> _userManager;
     private readonly DataContext _context;
+    private readonly IMapper _mapper;
 
-    public UsersController(UserManager<User> userManager, DataContext context)
+    public UsersController(UserManager<User> userManager, DataContext context, IMapper mapper)
     {
         _userManager = userManager;
         _context = context;
+        _mapper = mapper;
     }
 
 
@@ -34,25 +38,25 @@ public class UsersController : BaseApiController
     }
 
     [HttpGet("{userId:guid}/events")]
-    public async Task<ActionResult<List<Event>>> GetEventsByUserId(Guid userId)
+    public async Task<ActionResult<List<EventDto>>> GetEventsByUserId(Guid userId)
     {
         var user = await _context.Users.Include(x => x.Events)
             .FirstOrDefaultAsync(x => x.Id == userId);
         if (user is null)
             return NotFound("Current user douesn't exist");
 
-        return user.Events;
+        return _mapper.Map<List<EventDto>>(user.Events);
     }
     
     [HttpGet("{email}/events")]
-    public async Task<ActionResult<List<Event>>> GetEventsByUserEmail(string email)
+    public async Task<ActionResult<List<EventDto>>> GetEventsByUserEmail(string email)
     {
         var user = await _context.Users.Include(x => x.Events)
             .FirstOrDefaultAsync(x => x.Email == email);
         if (user is null)
             return NotFound("Current user douesn't exist");
 
-        return user.Events;
+        return  _mapper.Map<List<EventDto>>(user.Events);
     }
 
     [HttpGet("{email}")]

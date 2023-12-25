@@ -7,4 +7,6 @@ public record UserCreatorDto
     public string Name { get; set; }
     
     public string Base64Photo { get; set; }
+    
+    public string Email { get; set; }
 }
