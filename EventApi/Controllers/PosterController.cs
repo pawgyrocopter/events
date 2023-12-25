@@ -22,7 +22,7 @@ public class PosterController : BaseApiController
 
 
     [HttpGet]
-    public async Task<ActionResult<List<PosterDto>>> GetPosters([FromQuery] int pageSize = 10, [FromQuery] int pageCount = 1)
+    public async Task<ActionResult<List<PosterDto>>> GetPosters([FromQuery] int pageSize = 10, [FromQuery] int pageCount = 0)
     {
         return _context.Posters.Skip(pageSize * pageCount).Take(pageSize)
             .ProjectTo<PosterDto>(_mapper.ConfigurationProvider).ToList();

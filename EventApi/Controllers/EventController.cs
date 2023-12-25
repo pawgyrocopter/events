@@ -4,6 +4,7 @@ using AutoMapper.QueryableExtensions;
 using Domain.DTOs.Events;
 using Domain.Entities;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -79,6 +80,7 @@ public class EventController : BaseApiController
     }
     
     [HttpPost]
+    [Authorize]
     public async Task<ActionResult<Event>> CreateEvent([FromBody] EventCreateDto eventDto)
     {
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -102,5 +104,35 @@ public class EventController : BaseApiController
         }
 
         return Ok(_mapper.Map<Event, EventDto>(eventModel));
+    }
+    
+    [HttpDelete("{eventId:guid}")]
+    [Authorize]
+    public async Task<ActionResult<Event>> CreateEvent(Guid eventId)
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (!Guid.TryParse(userId, out var id))
+            return BadRequest("Incorrect token");
+
+        var eventModel = await _context.Events.FirstOrDefaultAsync(x => x.Id == eventId);
+
+        if (eventModel is null)
+            return BadRequest("No such Event");
+        
+        if (eventModel.CreatorId != id)
+            return Unauthorized();
+        
+        try
+        {
+            _context.Events.Remove(eventModel);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+        return Ok("Event deleted");
     }
 }

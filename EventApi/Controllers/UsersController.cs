@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Security.Claims;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.DTOs;
 using Domain.DTOs.Events;
@@ -44,27 +45,41 @@ public class UsersController : BaseApiController
         return user;
     }
 
-    [HttpGet("{userId:guid}/events")]
-    public async Task<ActionResult<List<EventDto>>> GetEventsByUserId(Guid userId)
+    [HttpGet("events")]
+    public async Task<ActionResult<List<EventDto>>> GetUserEvents()
     {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
         var user = await _context.Users.Include(x => x.Events)
-            .FirstOrDefaultAsync(x => x.Id == userId);
+            .FirstOrDefaultAsync(x => x.Id == Guid.Parse(userId));
+        
         if (user is null)
-            return NotFound("Current user douesn't exist");
+            return NotFound("Current user doesn't exist");
 
         return _mapper.Map<List<EventDto>>(user.Events);
     }
-    
-    [HttpGet("{email}/events")]
-    public async Task<ActionResult<List<EventDto>>> GetEventsByUserEmail(string email)
-    {
-        var user = await _context.Users.Include(x => x.Events)
-            .FirstOrDefaultAsync(x => x.Email == email);
-        if (user is null)
-            return NotFound("Current user douesn't exist");
-
-        return  _mapper.Map<List<EventDto>>(user.Events);
-    }
+    //
+    // [HttpGet("{userId:guid}/events")]
+    // public async Task<ActionResult<List<EventDto>>> GetEventsByUserId(Guid userId)
+    // {
+    //     var user = await _context.Users.Include(x => x.Events)
+    //         .FirstOrDefaultAsync(x => x.Id == userId);
+    //     if (user is null)
+    //         return NotFound("Current user douesn't exist");
+    //
+    //     return _mapper.Map<List<EventDto>>(user.Events);
+    // }
+    //
+    // [HttpGet("{email}/events")]
+    // public async Task<ActionResult<List<EventDto>>> GetEventsByUserEmail(string email)
+    // {
+    //     var user = await _context.Users.Include(x => x.Events)
+    //         .FirstOrDefaultAsync(x => x.Email == email);
+    //     if (user is null)
+    //         return NotFound("Current user douesn't exist");
+    //
+    //     return  _mapper.Map<List<EventDto>>(user.Events);
+    // }
 
     [HttpGet("{email}")]
     public async Task<ActionResult<User>> GetUserByEmail(string email)
