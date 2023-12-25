@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Security.Claims;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.DTOs.Events;
 using Domain.Entities;
@@ -28,12 +29,19 @@ public class EventController : BaseApiController
     {
         return _context.Events.ProjectTo<EventDto>(_mapper.ConfigurationProvider).ToList();
     }
-    
-  
-    [HttpPut("{eventId:guid}")]
-    public async Task<ActionResult<Event>> UpdateEvent([FromBody] EventDto eventDto, Guid eventId)
+
+    [HttpGet("{eventId:guid}")]
+    public async Task<ActionResult<EventDto>> GetEvent(Guid eventId)
     {
-        var eventModel = await _context.Events.FirstOrDefaultAsync(x => x.Id == eventId);
+        var eventModel = await _context.Events.Include(x => x.Users).FirstOrDefaultAsync(x => x.Id == eventId);
+        return _mapper.Map<EventDto>(eventModel);
+    }
+    
+    
+    [HttpPut("{eventId:guid}")]
+    public async Task<ActionResult<Event>> UpdateEvent([FromBody] EventUpdateDto eventDto, Guid eventId)
+    {
+        var eventModel = await _context.Events.Include(x => x.Users).FirstOrDefaultAsync(x => x.Id == eventId);
 
         if (eventModel is null)
             return NotFound("No such event with id" + eventId);
@@ -44,6 +52,20 @@ public class EventController : BaseApiController
         eventModel.Description = eventDto.Description ?? eventModel.Description;
         eventModel.ShortDescription = eventDto.ShortDescription ?? eventModel.ShortDescription;
 
+        foreach (var userEventUpdateDto in eventDto.UsersToRemove)
+        {
+            var user = await _userManager.FindByIdAsync(userEventUpdateDto.Id.ToString());
+            if (user is not null)
+                eventModel.Users.Remove(user);
+        }
+        
+        foreach (var userEventUpdateDto in eventDto.UsersToAdd)
+        {
+            var user = await _userManager.FindByIdAsync(userEventUpdateDto.Id.ToString());
+            if (user is not null)
+                eventModel.Users.Add(user);
+        }
+        
         try
         {
             await _context.SaveChangesAsync();
@@ -57,9 +79,18 @@ public class EventController : BaseApiController
     }
     
     [HttpPost]
-    public async Task<ActionResult<Event>> CreateEvent([FromBody] EventDto eventDto)
+    public async Task<ActionResult<Event>> CreateEvent([FromBody] EventCreateDto eventDto)
     {
-        var eventModel = new Event(eventDto);
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (!Guid.TryParse(userId, out var id))
+            return BadRequest("Incorrect token");
+
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user is null)
+            return BadRequest("No such user");
+        
+        var eventModel = new Event(eventDto, user);
         try
         {
             await _context.Events.AddAsync(eventModel);

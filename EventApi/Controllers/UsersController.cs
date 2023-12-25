@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain.DTOs;
 using Domain.DTOs.Events;
 using Domain.DTOs.User;
@@ -25,7 +26,13 @@ public class UsersController : BaseApiController
         _mapper = mapper;
     }
 
-
+    [HttpGet]
+    public async Task<ActionResult<List<UserGetDto>>> GetUsers()
+    {
+        return _context.Users.ProjectTo<UserGetDto>(_mapper.ConfigurationProvider).ToList();
+    }
+    
+    
     [HttpGet("{userId:guid}")]
     public async Task<ActionResult<User>> GetUserByUserId(Guid userId)
     {

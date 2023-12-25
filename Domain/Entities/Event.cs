@@ -22,6 +22,10 @@ public class Event
     
     public List<User> Users { get; set; }
 
+    public Guid PosterId { get; set; }
+    
+    public Poster Poster { get; set; }
+    
     public Event()
     {
         
@@ -37,5 +41,18 @@ public class Event
         Address = eventDto.Address;
         Users = new List<User>();
         CreatorId = eventDto.CreatorId;
+    }
+
+    public Event(EventCreateDto eventDto, User user)
+    {
+        Id = Guid.NewGuid();
+        Name = eventDto.Name;
+        Description = eventDto.Description;
+        ShortDescription = eventDto.ShortDescription;
+        Date = eventDto.Date;
+        Address = eventDto.Address;
+        Users = new List<User>();
+        CreatorId = user.Id;
+        PosterId = eventDto.PosterId;
     }
 }

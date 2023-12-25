@@ -12,6 +12,10 @@ public class DataContext : IdentityDbContext<
 {
     public DbSet<Event> Events { get; set; }
     
+    public DbSet<Poster> Posters { get; set; }
+    
+    public DbSet<Photo> Photos { get; set; }
+    
 
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
@@ -33,11 +37,21 @@ public class DataContext : IdentityDbContext<
             .HasForeignKey(ur => ur.RoleId)
             .IsRequired();
 
+        modelBuilder.Entity<Poster>()
+            .HasMany(x => x.Events)
+            .WithOne(y => y.Poster);
+
         modelBuilder.Entity<Event>()
             .HasOne(x => x.Creator)
             .WithMany(x => x.Events);
+        
+        modelBuilder.Entity<Event>()
+            .HasOne(x => x.Poster)
+            .WithMany(x => x.Events);
+        
         modelBuilder.Entity<User>()
             .HasMany(x => x.Events)
             .WithOne(x => x.Creator);
+
     }
 }

@@ -24,6 +24,9 @@ public class AccountService : IAccountService
     {
         if (await UserExists(registerDto.Email))
             throw new UnauthorizedAccessException("Email is already in use");
+        
+        if (await UserNameExists(registerDto.Name))
+            throw new UnauthorizedAccessException("UserName is already in use");
 
         var user = new User()
         {
@@ -82,8 +85,13 @@ public class AccountService : IAccountService
         };
     }
 
-    private async Task<bool> UserExists(string username)
+    private async Task<bool> UserExists(string email)
     {
-        return await _userManager.Users.AnyAsync(x => x.Email.Equals(username.ToLower()));
+        return await _userManager.Users.AnyAsync(x => x.Email.Equals(email.ToLower()));
+    }
+    
+    private async Task<bool> UserNameExists(string username)
+    {
+        return await _userManager.Users.AnyAsync(x => x.UserName.Equals(username.ToLower()));
     }
 }

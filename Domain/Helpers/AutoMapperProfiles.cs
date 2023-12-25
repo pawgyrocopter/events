@@ -10,6 +10,11 @@ public class AutoMapperProfiles: Profile
 {
     public AutoMapperProfiles()
     {
+        CreateMap<User, UserGetDto>()
+            .ForMember(d => d.Id, e => e.MapFrom(x => x.Id))
+            .ForMember(d => d.Name, e => e.MapFrom(x => x.UserName))
+            .ForMember(d => d.Email, e => e.MapFrom(x => x.Email));
+        
         CreateMap<User, UserCreatorDto>()
             .ForMember(d => d.Base64Photo, e 
                 => e.MapFrom(x => x.Base64Photo))
@@ -20,6 +25,14 @@ public class AutoMapperProfiles: Profile
             .ForMember(d => d.Email, e 
                 => e.MapFrom(x => x.Email));
         
-        CreateMap<Event, EventDto>();
+        CreateMap<Event, EventDto>()
+            .ForMember(d => d.Users, e 
+                => e.MapFrom(x => x.Users));
+
+        CreateMap<Poster, PosterDto>()
+            .ForMember(d => d.Base64Photo, e 
+                => e.MapFrom(x => x.Photo.Base64))
+            .ForMember(d => d.Id, e 
+            => e.MapFrom(x => x.Id));
     }
 }

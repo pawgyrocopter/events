@@ -1,6 +1,6 @@
 ﻿namespace Domain.DTOs;
 
-public class UserDto
+public record UserDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; }
