@@ -26,9 +26,12 @@ public class EventController : BaseApiController
 
 
     [HttpGet]
-    public async Task<ActionResult<List<EventDto>>> GetEvents()
+    public async Task<ActionResult<List<EventDto>>> GetEvents([FromQuery] DateTime? fromTime = null, [FromQuery] DateTime? toTime = null)
     {
-        return _context.Events.ProjectTo<EventDto>(_mapper.ConfigurationProvider).ToList();
+        var from = fromTime ?? DateTime.UtcNow.AddDays(-30); 
+        var to = toTime ?? DateTime.UtcNow; 
+        
+        return _context.Events.OrderBy(x => x.To).Where(x => x.From >= from && x.To <= to).Select(x => x).ProjectTo<EventDto>(_mapper.ConfigurationProvider).ToList();
     }
 
     [HttpGet("{eventId:guid}")]
@@ -47,7 +50,8 @@ public class EventController : BaseApiController
         if (eventModel is null)
             return NotFound("No such event with id" + eventId);
 
-        eventModel.Date = eventDto.Date;
+        eventModel.From = eventDto.From ?? eventModel.From;
+        eventModel.To = eventDto.To ?? eventModel.To;
         eventModel.Address = eventDto.Address ?? eventModel.Address;
         eventModel.Name = eventDto.Name ?? eventModel.Name;
         eventModel.Description = eventDto.Description ?? eventModel.Description;
@@ -134,5 +138,70 @@ public class EventController : BaseApiController
         }
 
         return Ok("Event deleted");
+    }
+
+    
+    [Authorize]
+    [HttpPut("like/{eventId:guid}")]
+    public async Task<ActionResult> Like(Guid eventId)
+    {
+        var eventModel = await _context.Events.FirstOrDefaultAsync(x => x.Id == eventId);
+
+        if (eventModel is null)
+            return NotFound();
+        
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        
+        if (!Guid.TryParse(userId, out var id))
+            return BadRequest("Incorrect token");
+
+        var user = await _context.Users.Include(x => x.LikedEvents).FirstOrDefaultAsync(x => x.Id == id);
+
+        if (user is null)
+            return NotFound("User not found");
+
+        try
+        {
+            user.LikedEvents.Add(eventModel);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        
+        return Ok();
+    }
+    
+    [Authorize]
+    [HttpPut("dislike/{eventId:guid}")]
+    public async Task<ActionResult> DisLike(Guid eventId)
+    {
+        var eventModel = await _context.Events.FirstOrDefaultAsync(x => x.Id == eventId);
+
+        if (eventModel is null)
+            return NotFound();
+        
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        
+        if (!Guid.TryParse(userId, out var id))
+            return BadRequest("Incorrect token");
+
+        var user = await _context.Users.Include(x => x.LikedEvents).FirstOrDefaultAsync(x => x.Id == id);
+
+        if (user is null)
+            return NotFound("User not found");
+
+        try
+        {
+            user.LikedEvents.Remove(eventModel);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        
+        return Ok();
     }
 }

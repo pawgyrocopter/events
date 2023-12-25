@@ -15,13 +15,17 @@ public record EventDto
     
     public string Description { get; set; }
     
-    public DateTime Date { get; set; }
+    public DateTime From { get; set; }
+    
+    public DateTime To { get; set; }
     
     public Guid CreatorId { get; set; }
     
     public UserCreatorDto Creator { get; set; }
     
     public List<UserGetDto> Users { get; set; }
+    
+    public Guid? PosterId { get; set; }
     
     public EventDto(){}
 }

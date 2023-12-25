@@ -7,4 +7,6 @@ public record PosterCreateDto
     public string Base64Photo { get; set; }
     
     public string Description { get; set; }
+    
+    public DateTime DateTime { get; set; }
 }

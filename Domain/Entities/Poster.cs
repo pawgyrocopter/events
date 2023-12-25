@@ -10,6 +10,9 @@ public class Poster
 
     public string Description { get; set; }
     
+    public DateTime From { get; set; }
+    public DateTime To { get; set; }
+    
     public Guid PhotoId { get; set;}
 
     public Photo Photo { get; set; }
@@ -26,5 +29,6 @@ public class Poster
         Name = dto.Name;
         Description = dto.Name;
         Photo = new Photo() {Id = Guid.NewGuid(), Base64 = dto.Base64Photo};
+        To = dto.DateTime;
     }
 }

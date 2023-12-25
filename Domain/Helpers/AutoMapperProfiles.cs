@@ -13,7 +13,9 @@ public class AutoMapperProfiles: Profile
         CreateMap<User, UserGetDto>()
             .ForMember(d => d.Id, e => e.MapFrom(x => x.Id))
             .ForMember(d => d.Name, e => e.MapFrom(x => x.UserName))
-            .ForMember(d => d.Email, e => e.MapFrom(x => x.Email));
+            .ForMember(d => d.Email, e => e.MapFrom(x => x.Email))
+            .ForMember(d => d.LikedEvents, e => e.MapFrom(x => x.LikedEvents))
+            .ForMember(d => d.LikedPosters, e => e.MapFrom(x => x.LikedPosters));
         
         CreateMap<User, UserCreatorDto>()
             .ForMember(d => d.Base64Photo, e 
@@ -26,8 +28,8 @@ public class AutoMapperProfiles: Profile
                 => e.MapFrom(x => x.Email));
         
         CreateMap<Event, EventDto>()
-            .ForMember(d => d.Users, e 
-                => e.MapFrom(x => x.Users));
+            .ForMember(d => d.Users, e => e.MapFrom(x => x.Users))
+            .ForMember(d => d.PosterId, e => e.MapFrom(x => x.PosterId));
 
         CreateMap<Poster, PosterDto>()
             .ForMember(d => d.Base64Photo, e 

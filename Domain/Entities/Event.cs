@@ -14,7 +14,9 @@ public class Event
     
     public string Description { get; set; }
     
-    public DateTime Date { get; set; }
+    public DateTime From { get; set; }
+    
+    public DateTime To { get; set; }
     
     public Guid CreatorId { get; set; }
     
@@ -22,9 +24,9 @@ public class Event
     
     public List<User> Users { get; set; }
 
-    public Guid PosterId { get; set; }
+    public Guid? PosterId { get; set; }
     
-    public Poster Poster { get; set; }
+    public Poster? Poster { get; set; }
     
     public Event()
     {
@@ -37,7 +39,8 @@ public class Event
         Name = eventDto.Name;
         Description = eventDto.Description;
         ShortDescription = eventDto.ShortDescription;
-        Date = eventDto.Date;
+        From = eventDto.From;
+        To = eventDto.To;
         Address = eventDto.Address;
         Users = new List<User>();
         CreatorId = eventDto.CreatorId;
@@ -49,7 +52,8 @@ public class Event
         Name = eventDto.Name;
         Description = eventDto.Description;
         ShortDescription = eventDto.ShortDescription;
-        Date = eventDto.Date;
+        From = eventDto.From;   
+        To = eventDto.To;
         Address = eventDto.Address;
         Users = new List<User>();
         CreatorId = user.Id;

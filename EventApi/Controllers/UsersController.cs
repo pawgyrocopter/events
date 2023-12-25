@@ -58,28 +58,6 @@ public class UsersController : BaseApiController
 
         return _mapper.Map<List<EventDto>>(user.Events);
     }
-    //
-    // [HttpGet("{userId:guid}/events")]
-    // public async Task<ActionResult<List<EventDto>>> GetEventsByUserId(Guid userId)
-    // {
-    //     var user = await _context.Users.Include(x => x.Events)
-    //         .FirstOrDefaultAsync(x => x.Id == userId);
-    //     if (user is null)
-    //         return NotFound("Current user douesn't exist");
-    //
-    //     return _mapper.Map<List<EventDto>>(user.Events);
-    // }
-    //
-    // [HttpGet("{email}/events")]
-    // public async Task<ActionResult<List<EventDto>>> GetEventsByUserEmail(string email)
-    // {
-    //     var user = await _context.Users.Include(x => x.Events)
-    //         .FirstOrDefaultAsync(x => x.Email == email);
-    //     if (user is null)
-    //         return NotFound("Current user douesn't exist");
-    //
-    //     return  _mapper.Map<List<EventDto>>(user.Events);
-    // }
 
     [HttpGet("{email}")]
     public async Task<ActionResult<User>> GetUserByEmail(string email)
@@ -92,11 +70,20 @@ public class UsersController : BaseApiController
         return user;
     }
 
-    [HttpPut("{userId}")]
-    public async Task<ActionResult> UpdateUser([FromBody] UserUpdateDto updateUser, Guid userId)
+    [HttpPut]
+    [Authorize]
+    public async Task<ActionResult> UpdateUser([FromBody] UserUpdateDto updateUser)
     {
-        var user = await _userManager.Users.AsNoTracking().Include(x => x.Photos).FirstOrDefaultAsync(x => x.Id == userId);
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
+        if (!Guid.TryParse(userId, out var id))
+            return BadRequest("Incorrect token");
+
+        var user = await _context.Users
+            .Include(x => x.Photos)
+            .Include(x => x.Events)
+            .FirstOrDefaultAsync(x => x.Id == id);
+        
         if (user is null)
             return NotFound("No such user");
         
@@ -106,11 +93,7 @@ public class UsersController : BaseApiController
         if (updateUser.Photos is not null)
             user.Photos.AddRange(updateUser.Photos.Select(x => new Photo(x)));
         
-        // await _userManager.UpdateNormalizedEmailAsync(user);
-        // await _userManager.UpdateNormalizedUserNameAsync(user);
         var result = await _userManager.UpdateAsync(user);
-        // await _context.SaveChangesAsync();
-        // await _context.SaveChangesAsync();
 
         return Ok(result);
     }

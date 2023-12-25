@@ -10,7 +10,9 @@ public class EventCreateDto
     
     public string Description { get; set; }
     
-    public DateTime Date { get; set; }
+    public DateTime From { get; set; }
     
-    public Guid PosterId { get; set; }
+    public DateTime To { get; set; }
+    
+    public Guid? PosterId { get; set; }
 }

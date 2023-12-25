@@ -12,7 +12,8 @@ public record EventUpdateDto
     
     public string Description { get; set; }
     
-    public DateTime Date { get; set; }
+    public DateTime? From { get; set; }
+    public DateTime? To { get; set; }
     
     public List<UserEventUpdateDto> UsersToAdd { get; set; }
     
