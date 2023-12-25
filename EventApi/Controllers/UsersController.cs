@@ -35,14 +35,14 @@ public class UsersController : BaseApiController
     
     
     [HttpGet("{userId:guid}")]
-    public async Task<ActionResult<User>> GetUserByUserId(Guid userId)
+    public async Task<ActionResult<UserDto>> GetUserByUserId(Guid userId)
     {
         var user = await _context.Users.Include(x => x.Events)
             .FirstOrDefaultAsync(x => x.Id == userId);
         if (user is null)
             return NotFound("Current user douesn't exist");
 
-        return user;
+        return _mapper.Map<UserDto>(user);
     }
 
     [HttpGet("events")]
@@ -87,12 +87,19 @@ public class UsersController : BaseApiController
         if (user is null)
             return NotFound("No such user");
         
-        user.UserName = updateUser.Name ?? user.UserName;
+        user.UserName = updateUser.UserName ?? user.UserName;
         user.Email = updateUser.Email ?? user.Email;
         user.Photos ??= new List<Photo>();
         if (updateUser.Photos is not null)
             user.Photos.AddRange(updateUser.Photos.Select(x => new Photo(x)));
-        
+        user.FirstName = updateUser.FirstName ?? user.FirstName;
+        user.SecondName = updateUser.SecondName ?? user.SecondName;
+        user.Age = updateUser.Age ?? user.Age;
+        user.ShortDescription = updateUser.ShortDescription ?? user.ShortDescription;
+        user.Interests = updateUser.Interests ?? user.Interests;
+        user.TelegramLink = updateUser.TelegramLink ?? user.TelegramLink;
+        user.VKLink = updateUser.VKLink ?? user.VKLink;
+        user.Base64Photo = updateUser.Base64Photo ?? user.Base64Photo;
         var result = await _userManager.UpdateAsync(user);
 
         return Ok(result);
