@@ -1,9 +1,12 @@
-﻿using Domain.Entities;
+﻿using Domain.DTOs.User;
+using Domain.Entities;
 
 namespace Domain.DTOs.Events;
 
 public record EventDto
 {
+    public Guid Id { get; set; }
+
     public string Name { get; set; }
     
     public string Address { get; set; }
@@ -12,19 +15,11 @@ public record EventDto
     
     public string Description { get; set; }
     
-    public DateTime? Date { get; set; }
+    public DateTime Date { get; set; }
     
     public Guid CreatorId { get; set; }
     
-    public EventDto(){}
+    public UserCreatorDto Creator { get; set; }
     
-    public EventDto(Event eventModel)
-    {
-        ShortDescription = eventModel.ShortDescription;
-        Description = eventModel.Description;
-        Address = eventModel.Address;
-        Name = eventModel.Name;
-        Date = eventModel.Date;
-        CreatorId = eventModel.CreatorId;
-    }
+    public EventDto(){}
 }

@@ -1,4 +1,6 @@
-﻿using Domain.Entities;
+﻿using Domain.DTOs;
+using Domain.DTOs.User;
+using Domain.Entities;
 using Domain.Interfaces.IServices;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
@@ -62,5 +64,28 @@ public class UsersController : BaseApiController
             return NotFound("Current user douesn't exist");
 
         return user;
+    }
+
+    [HttpPut("{userId}")]
+    public async Task<ActionResult> UpdateUser([FromBody] UserUpdateDto updateUser, Guid userId)
+    {
+        var user = await _userManager.Users.AsNoTracking().Include(x => x.Photos).FirstOrDefaultAsync(x => x.Id == userId);
+
+        if (user is null)
+            return NotFound("No such user");
+        
+        user.UserName = updateUser.Name ?? user.UserName;
+        user.Email = updateUser.Email ?? user.Email;
+        user.Photos ??= new List<Photo>();
+        if (updateUser.Photos is not null)
+            user.Photos.AddRange(updateUser.Photos.Select(x => new Photo(x)));
+        
+        // await _userManager.UpdateNormalizedEmailAsync(user);
+        // await _userManager.UpdateNormalizedUserNameAsync(user);
+        var result = await _userManager.UpdateAsync(user);
+        // await _context.SaveChangesAsync();
+        // await _context.SaveChangesAsync();
+
+        return Ok(result);
     }
 }

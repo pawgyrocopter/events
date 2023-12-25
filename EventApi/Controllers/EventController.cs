@@ -1,4 +1,6 @@
-﻿using Domain.DTOs.Events;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Domain.DTOs.Events;
 using Domain.Entities;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
@@ -11,14 +13,22 @@ public class EventController : BaseApiController
 {
     private readonly DataContext _context;
     private readonly UserManager<User> _userManager;
+    private readonly IMapper _mapper;
 
-    public EventController(DataContext context, UserManager<User> userManager)
+    public EventController(DataContext context, UserManager<User> userManager, IMapper mapper)
     {
         _context = context;
         _userManager = userManager;
+        _mapper = mapper;
     }
 
 
+    [HttpGet]
+    public async Task<ActionResult<List<EventDto>>> GetEvents()
+    {
+        return _context.Events.ProjectTo<EventDto>(_mapper.ConfigurationProvider).ToList();
+    }
+    
   
     [HttpPut("{eventId:guid}")]
     public async Task<ActionResult<Event>> UpdateEvent([FromBody] EventDto eventDto, Guid eventId)
@@ -28,7 +38,7 @@ public class EventController : BaseApiController
         if (eventModel is null)
             return NotFound("No such event with id" + eventId);
 
-        eventModel.Date = eventDto.Date ?? eventModel.Date;
+        eventModel.Date = eventDto.Date;
         eventModel.Address = eventDto.Address ?? eventModel.Address;
         eventModel.Name = eventDto.Name ?? eventModel.Name;
         eventModel.Description = eventDto.Description ?? eventModel.Description;
@@ -43,7 +53,7 @@ public class EventController : BaseApiController
             return BadRequest(ex.Message);
         }
 
-        return Ok(new EventDto(eventModel));
+        return Ok(_mapper.Map<Event, EventDto>(eventModel));
     }
     
     [HttpPost]
@@ -60,6 +70,6 @@ public class EventController : BaseApiController
             return BadRequest(ex.Message);
         }
 
-        return Ok(new EventDto(eventModel));
+        return Ok(_mapper.Map<Event, EventDto>(eventModel));
     }
 }

@@ -33,7 +33,7 @@ public class Event
         Name = eventDto.Name;
         Description = eventDto.Description;
         ShortDescription = eventDto.ShortDescription;
-        Date = eventDto.Date ?? DateTime.UtcNow;
+        Date = eventDto.Date;
         Address = eventDto.Address;
         Users = new List<User>();
         CreatorId = eventDto.CreatorId;

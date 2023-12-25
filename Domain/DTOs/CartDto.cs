@@ -2,5 +2,5 @@
 
 public class CartDto
 {
-    public IEnumerable<PizzaDto> Pizzas { get; set; }
+    // public IEnumerable<PizzaDto> Pizzas { get; set; }
 }

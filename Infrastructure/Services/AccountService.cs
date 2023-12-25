@@ -40,7 +40,7 @@ public class AccountService : IAccountService
             Console.WriteLine(result.Errors.ToString());
             throw new ApplicationException(result.Errors.ToString());
         }
-        
+
         var roleResult = await _userManager.AddToRoleAsync(user, "Customer");
         if (!roleResult.Succeeded)
         {
@@ -64,20 +64,24 @@ public class AccountService : IAccountService
         var user = await _userManager.Users
             .FirstOrDefaultAsync(x => x.Email.Equals(loginDto.Email.ToLower()));
 
-        if (user == null) throw new UnauthorizedAccessException("Email doesn't exist");
+        if (user == null)
+            throw new UnauthorizedAccessException("Email doesn't exist");
 
         var result = await _signInManager
             .CheckPasswordSignInAsync(user, loginDto.Password, false);
 
-        if (!result.Succeeded) throw new UnauthorizedAccessException();
-
+        if (!result.Succeeded)
+            throw new UnauthorizedAccessException();
+        
         return new UserDto()
         {
             Id = user.Id,
             Name = user.UserName,
             Token = await _tokenService.CreateToken(user),
+            Email = user.Email
         };
     }
+
     private async Task<bool> UserExists(string username)
     {
         return await _userManager.Users.AnyAsync(x => x.Email.Equals(username.ToLower()));

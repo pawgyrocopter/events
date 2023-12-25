@@ -1,14 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Runtime.InteropServices;
+using Domain.DTOs;
 
 namespace Domain.Entities;
 
-[Table("Photos")]
 public class Photo
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
+    
+    public string Base64 { get; set; }
+    
+    public Photo(){}
 
-    public string Url { get; set; }
-
-    public string PublicId { get; set; }
-
+    public Photo(PhotoDto photoDto)
+    {
+        Id = Guid.NewGuid();
+        Base64 = photoDto.Base64;
+    }
 }
