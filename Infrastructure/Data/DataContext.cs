@@ -24,18 +24,22 @@ public class DataContext : IdentityDbContext<
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-        modelBuilder.Entity<User>()
-            .HasMany(ur => ur.UserRoles)
-            .WithOne(u => u.User)
-            .HasForeignKey(ur => ur.UserId)
-            .IsRequired();
         
-        modelBuilder.Entity<Role>()
-            .HasMany(ur => ur.UserRoles)
-            .WithOne(u => u.Role)
-            .HasForeignKey(ur => ur.RoleId)
-            .IsRequired();
+        modelBuilder.Entity<UserRole>(userRole =>
+        {
+            userRole.HasKey(ur => new { ur.UserId, ur.RoleId });
+
+            userRole.HasOne(ur => ur.Role)
+                .WithMany(r => r.UserRoles)
+                .HasForeignKey(ur => ur.RoleId)
+                .IsRequired();
+
+            userRole.HasOne(ur => ur.User)
+                .WithMany(u => u.UserRoles)
+                .HasForeignKey(ur => ur.UserId)
+                .IsRequired();
+        });
+        
 
         modelBuilder.Entity<Poster>()
             .HasMany(x => x.Events)
@@ -52,6 +56,5 @@ public class DataContext : IdentityDbContext<
         modelBuilder.Entity<User>()
             .HasMany(x => x.Events)
             .WithOne(x => x.Creator);
-
     }
 }

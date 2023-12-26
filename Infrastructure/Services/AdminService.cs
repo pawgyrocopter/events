@@ -17,22 +17,22 @@ public class AdminService : IAdminService
         _userManager = userManager;
     }
 
-    public async Task<object> GetUsersWithRoles()
-    {
-        var users = await _userManager.Users
-            .Include(r => r.UserRoles)
-            .ThenInclude(r => r.Role)
-            .OrderBy(u => u.UserName)
-            .Select(u => new
-            {
-                u.Id,
-                Name = u.UserName,
-                Roles = u.UserRoles.Select(r => r.Role.Name).ToList()
-            })
-            .ToListAsync();
-
-        return users;
-    }
+    // public async Task<object> GetUsersWithRoles()
+    // {
+    //     var users = await _userManager.Users
+    //         .Include(r => r.UserRoles)
+    //         .ThenInclude(r => r.Role)
+    //         .OrderBy(u => u.UserName)
+    //         .Select(u => new
+    //         {
+    //             u.Id,
+    //             Name = u.UserName,
+    //             Roles = u.UserRoles.Select(r => r.Role.Name).ToList()
+    //         })
+    //         .ToListAsync();
+    //
+    //     return users;
+    // }
 
     public async Task<object> EditRoles(string userName, string roles)
     {

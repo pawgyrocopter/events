@@ -1,6 +1,7 @@
 ﻿using Domain.DTOs;
 using Domain.Entities;
 using Domain.Interfaces.IServices;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,13 +12,15 @@ public class AccountService : IAccountService
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
     private readonly ITokenService _tokenService;
+    private readonly DataContext _context;
 
     public AccountService(UserManager<User> userManager, SignInManager<User> signInManager,
-        ITokenService tokenService)
+        ITokenService tokenService, DataContext context)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _tokenService = tokenService;
+        _context = context;
     }
 
     public async Task<UserDto> Register(RegisterDto registerDto)
@@ -25,14 +28,13 @@ public class AccountService : IAccountService
         if (await UserExists(registerDto.Email))
             throw new UnauthorizedAccessException("Email is already in use");
         
-        if (await UserNameExists(registerDto.Name))
+        if (await UserNameExists(registerDto.UserName ?? registerDto.Email))
             throw new UnauthorizedAccessException("UserName is already in use");
 
         var user = new User()
         {
             Email = registerDto.Email,
-            PhoneNumber = registerDto.PhoneNumber,
-            UserName = registerDto.Name,
+            UserName = registerDto.UserName ?? registerDto.Email,
         };
 
         user.Email = registerDto.Email.ToLower();
@@ -55,9 +57,7 @@ public class AccountService : IAccountService
         {
             Id = user.Id,
             Email = registerDto.Email,
-            PhoneNumber = registerDto.PhoneNumber,
-            Name = registerDto.Name,
-            Adress = registerDto.Adress,
+            Name = registerDto.UserName,
             Token = await _tokenService.CreateToken(user)
         };
     }
@@ -75,7 +75,7 @@ public class AccountService : IAccountService
 
         if (!result.Succeeded)
             throw new UnauthorizedAccessException();
-        
+
         return new UserDto()
         {
             Id = user.Id,

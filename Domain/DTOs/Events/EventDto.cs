@@ -27,5 +27,7 @@ public record EventDto
     
     public Guid? PosterId { get; set; }
     
+    public string Base64Photo { get; set; }
+    
     public EventDto(){}
 }

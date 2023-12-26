@@ -9,6 +9,10 @@ public class Photo
     
     public string Base64 { get; set; }
     
+    public Guid UserId { get; set; }
+
+    public User User{ get; set; }
+    
     public Photo(){}
 
     public Photo(PhotoDto photoDto)

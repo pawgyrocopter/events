@@ -57,19 +57,20 @@ public class EventController : BaseApiController
         eventModel.Description = eventDto.Description ?? eventModel.Description;
         eventModel.ShortDescription = eventDto.ShortDescription ?? eventModel.ShortDescription;
 
-        foreach (var userEventUpdateDto in eventDto.UsersToRemove)
-        {
-            var user = await _userManager.FindByIdAsync(userEventUpdateDto.Id.ToString());
-            if (user is not null)
-                eventModel.Users.Remove(user);
-        }
-        
-        foreach (var userEventUpdateDto in eventDto.UsersToAdd)
-        {
-            var user = await _userManager.FindByIdAsync(userEventUpdateDto.Id.ToString());
-            if (user is not null)
-                eventModel.Users.Add(user);
-        }
+        if (eventDto.UsersToRemove is not null)
+            foreach (var userEventUpdateDto in eventDto.UsersToRemove)
+            {
+                var user = await _userManager.FindByIdAsync(userEventUpdateDto.Id.ToString());
+                if (user is not null)
+                    eventModel.Users.Remove(user);
+            }
+        if (eventDto.UsersToAdd is not null)
+            foreach (var userEventUpdateDto in eventDto?.UsersToAdd)
+            {
+                var user = await _userManager.FindByIdAsync(userEventUpdateDto.Id.ToString());
+                if (user is not null)
+                    eventModel.Users.Add(user);
+            }
         
         try
         {

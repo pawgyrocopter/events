@@ -13,11 +13,11 @@ public class AdminController : BaseApiController
         _adminService = adminService;
        
     }
-    [HttpGet]
-    public async Task<ActionResult> GetUsersWithRoles()
-    {
-        return Ok(await _adminService.GetUsersWithRoles());
-    }
+    // [HttpGet]
+    // public async Task<ActionResult> GetUsersWithRoles()
+    // {
+    //     return Ok(await _adminService.GetUsersWithRoles());
+    // }
 
     [HttpPost("edit-roles/{userName}")]
     public async Task<ActionResult> EditRoles(string userName, [FromQuery] string roles)

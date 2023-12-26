@@ -2,6 +2,6 @@
 
 public interface IAdminService
 {
-    Task<object> GetUsersWithRoles();
+   // Task<object> GetUsersWithRoles();
     Task<object> EditRoles(string userName, string roles);
 }

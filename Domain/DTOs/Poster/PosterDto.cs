@@ -9,4 +9,8 @@ public record PosterDto
     public string Base64Photo { get; set; }
     
     public string Description { get; set; }
+    
+    public DateTime From { get; set; }
+    
+    public DateTime To { get; set; }
 }

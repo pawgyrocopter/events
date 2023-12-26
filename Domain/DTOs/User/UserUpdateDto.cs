@@ -19,5 +19,4 @@ public record UserUpdateDto
     public string Base64Photo { get; set; }
     public string UserName { get; set; }
     public string Email { get; set; }
-    public List<PhotoDto> Photos { get; set; }
 }

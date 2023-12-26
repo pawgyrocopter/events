@@ -20,6 +20,8 @@ public class Event
     
     public Guid CreatorId { get; set; }
     
+    public string Base64Photo { get; set; }
+    
     public User Creator { get; set; }
     
     public List<User> Users { get; set; }
@@ -58,5 +60,6 @@ public class Event
         Users = new List<User>();
         CreatorId = user.Id;
         PosterId = eventDto.PosterId;
+        Base64Photo = eventDto.Base64Photo;
     }
 }

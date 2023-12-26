@@ -85,7 +85,7 @@ try
     var roleManager = services.GetRequiredService<RoleManager<Role>>();
     //context.Database.EnsureDeleted();;
     await context.Database.MigrateAsync();
-    await Seed.SeedUsers(userManager, roleManager);
+    await Seed.SeedUsers(userManager, roleManager, context);
 
     await context.SaveChangesAsync();
 }

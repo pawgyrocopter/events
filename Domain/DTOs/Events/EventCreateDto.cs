@@ -15,4 +15,6 @@ public class EventCreateDto
     public DateTime To { get; set; }
     
     public Guid? PosterId { get; set; }
+    
+    public string Base64Photo { get; set; }
 }

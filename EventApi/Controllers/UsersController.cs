@@ -35,14 +35,14 @@ public class UsersController : BaseApiController
     
     
     [HttpGet("{userId:guid}")]
-    public async Task<ActionResult<UserDto>> GetUserByUserId(Guid userId)
+    public async Task<ActionResult<UserGetDto>> GetUserByUserId(Guid userId)
     {
         var user = await _context.Users.Include(x => x.Events)
             .FirstOrDefaultAsync(x => x.Id == userId);
         if (user is null)
             return NotFound("Current user douesn't exist");
 
-        return _mapper.Map<UserDto>(user);
+        return _mapper.Map<UserGetDto>(user);
     }
 
     [HttpGet("events")]
@@ -72,26 +72,22 @@ public class UsersController : BaseApiController
 
     [HttpPut]
     [Authorize]
-    public async Task<ActionResult> UpdateUser([FromBody] UserUpdateDto updateUser)
+    public async Task<ActionResult<UserGetDto>> UpdateUser([FromBody] UserUpdateDto updateUser)
     {
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        if (!Guid.TryParse(userId, out var id))
-            return BadRequest("Incorrect token");
-
         var user = await _context.Users
             .Include(x => x.Photos)
             .Include(x => x.Events)
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == Guid.Parse(userId));
         
         if (user is null)
             return NotFound("No such user");
-        
-        user.UserName = updateUser.UserName ?? user.UserName;
-        user.Email = updateUser.Email ?? user.Email;
-        user.Photos ??= new List<Photo>();
-        if (updateUser.Photos is not null)
-            user.Photos.AddRange(updateUser.Photos.Select(x => new Photo(x)));
+
+        if (await _userManager.FindByNameAsync(updateUser.UserName ?? string.Empty) is null)
+            user.UserName = updateUser.UserName ?? user.UserName;
+        if (await _userManager.FindByEmailAsync(updateUser.Email ?? string.Empty) is null)
+            user.Email = updateUser.Email ?? user.Email;
+
         user.FirstName = updateUser.FirstName ?? user.FirstName;
         user.SecondName = updateUser.SecondName ?? user.SecondName;
         user.Age = updateUser.Age ?? user.Age;
@@ -100,8 +96,32 @@ public class UsersController : BaseApiController
         user.TelegramLink = updateUser.TelegramLink ?? user.TelegramLink;
         user.VKLink = updateUser.VKLink ?? user.VKLink;
         user.Base64Photo = updateUser.Base64Photo ?? user.Base64Photo;
-        var result = await _userManager.UpdateAsync(user);
 
-        return Ok(result);
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+      
+       
+        return Ok(_mapper.Map<UserGetDto>(user));
+        // while (true)
+        // {
+        //     var result = await _userManager.UpdateAsync(user);
+        //     if (result.Succeeded)
+        //         break;
+        // }
+        // try
+        // {
+        //     await _context.SaveChangesAsync();
+        // }
+        // catch (Exception ex)
+        // {
+        //     var a = 1;
+        // }
+        
     }
 }

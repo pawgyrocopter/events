@@ -15,7 +15,7 @@ public class Poster
     
     public Guid PhotoId { get; set;}
 
-    public Photo Photo { get; set; }
+    public string Base64Photo { get; set; }
 
     public List<Event> Events { get; set; }
 
@@ -28,7 +28,8 @@ public class Poster
         Id = Guid.NewGuid();
         Name = dto.Name;
         Description = dto.Name;
-        Photo = new Photo() {Id = Guid.NewGuid(), Base64 = dto.Base64Photo};
-        To = dto.DateTime;
+        Base64Photo = dto.Base64Photo;
+        To = dto.To;
+        From = dto.From;
     }
 }
